@@ -5,7 +5,7 @@ type Todo = {
   id: string;
   title: string;
   completed: boolean;
-  endAt?: Date;
+  endAt?: number; // UNIX timestamp
 };
 
 const todoAtom = atomWithStorage<Todo[]>("todo", []);
@@ -27,6 +27,16 @@ export const useTodoAtom = () => {
       prevTodos.map((todo) => (todo.id === id ? { ...todo, completed } : todo)),
     );
   };
+  const updateTodo = (
+    id: string,
+    updates: Partial<Omit<Todo, "id" | "completed">>,
+  ) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === id ? { ...todo, ...updates } : todo,
+      ),
+    );
+  };
 
-  return { todos, addTodo, removeTodo, setCompleted };
+  return { todos, addTodo, removeTodo, setCompleted, updateTodo };
 };
