@@ -1,4 +1,5 @@
-import { atom, useAtom } from "jotai";
+import { useAtom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
 type Todo = {
   id: string;
@@ -7,7 +8,7 @@ type Todo = {
   endAt?: Date;
 };
 
-const todoAtom = atom<Todo[]>([]);
+const todoAtom = atomWithStorage<Todo[]>("todo", []);
 
 export const useTodoAtom = () => {
   const [todos, setTodos] = useAtom(todoAtom);
