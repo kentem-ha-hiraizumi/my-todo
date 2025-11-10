@@ -28,7 +28,7 @@ export const TodoEditForm = ({
   };
 
   return (
-    <>
+    <div className="space-y-2">
       <div className="flex-1 space-y-3">
         <input
           type="text"
@@ -43,7 +43,7 @@ export const TodoEditForm = ({
           className="w-full p-3 border-2 border-cyan-200 rounded-lg focus:border-cyan-400 focus:outline-none transition-colors duration-200"
         />
       </div>
-      <div className="flex gap-2 ml-3">
+      <div className="flex gap-2">
         <button
           type="button"
           className="bg-cyan-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-cyan-600 transition-colors duration-200 shadow-sm font-medium"
@@ -59,6 +59,6 @@ export const TodoEditForm = ({
           キャンセル
         </button>
       </div>
-    </>
+    </div>
   );
 };

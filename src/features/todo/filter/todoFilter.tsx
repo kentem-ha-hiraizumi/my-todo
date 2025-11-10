@@ -5,7 +5,7 @@ export const TodoFilter = () => {
   const { filter, setFilter, sort, setSort } = useFilterAtom();
 
   return (
-    <div className="flex gap-4 flex-wrap justify-center">
+    <div className="flex gap-4 flex-wrap justify-center w-fit">
       <div className="flex gap-2">
         <button
           type="button"

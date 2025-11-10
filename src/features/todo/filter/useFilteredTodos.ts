@@ -18,8 +18,8 @@ const sortCompareFunctions: Record<string, (a: Todo, b: Todo) => number> = {
     return a.endAt - b.endAt;
   },
   "date-desc": (a, b) => {
-    if (!a.endAt) return 1;
-    if (!b.endAt) return -1;
+    if (!a.endAt) return -1;
+    if (!b.endAt) return 1;
     return b.endAt - a.endAt;
   },
 };

@@ -20,7 +20,7 @@ export const TodoItem = ({
   onDelete,
 }: TodoItemProps) => {
   return (
-    <>
+    <div className="space-y-2">
       <div className="flex-1">
         <h2
           className={`text-lg font-semibold ${
@@ -68,6 +68,6 @@ export const TodoItem = ({
           🗑️
         </button>
       </div>
-    </>
+    </div>
   );
 };
