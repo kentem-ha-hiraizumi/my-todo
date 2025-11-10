@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useFilteredTodos } from "./filter/useFilteredTodos";
+import { TodoEditForm } from "./form/todoEditForm";
 import { useTodoAtom } from "./todoAtom";
-import { TodoEditForm } from "./todoEditForm";
+import { TodoItem } from "./todoItem";
 
 export const TodoList = () => {
   const { todos, setCompleted, removeTodo, updateTodo } = useTodoAtom();
@@ -77,55 +78,16 @@ export const TodoList = () => {
                   onCancel={() => setEditingId(null)}
                 />
               ) : (
-                <>
-                  <div className="flex-1">
-                    <h2
-                      className={`text-lg font-semibold ${
-                        todo.completed
-                          ? "line-through text-gray-500"
-                          : overdue
-                            ? "text-red-700 font-bold"
-                            : ""
-                      }`}
-                    >
-                      {todo.title}
-                    </h2>
-                    <p
-                      className={`text-sm ${overdue ? "text-red-600 font-semibold" : "text-gray-500"}`}
-                    >
-                      {todo.endAt
-                        ? `期日: ${new Date(todo.endAt).toLocaleDateString()}${overdue ? " (期限超過)" : ""}`
-                        : "期限なし"}
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      className="bg-blue-500 text-white px-3 py-1 rounded cursor-pointer hover:bg-blue-600"
-                      onClick={() => setEditingId(todo.id)}
-                    >
-                      編集
-                    </button>
-                    <button
-                      type="button"
-                      className={`text-white px-3 py-1 rounded cursor-pointer ${todo.completed ? "bg-gray-400 hover:bg-gray-500" : "bg-teal-600 hover:bg-teal-800"}`}
-                      onClick={() => {
-                        setCompleted(todo.id, !todo.completed);
-                      }}
-                    >
-                      {todo.completed ? "戻す" : "完了する"}
-                    </button>
-                    <button
-                      type="button"
-                      className={`border-2  text-white p-1 rounded cursor-pointer ${todo.completed ? "border-slate-400 hover:bg-slate-300" : "border-red-700 hover:bg-red-200"}`}
-                      onClick={() => {
-                        handleDelete(todo.id, todo.completed);
-                      }}
-                    >
-                      🗑️
-                    </button>
-                  </div>
-                </>
+                <TodoItem
+                  id={todo.id}
+                  title={todo.title}
+                  endAt={todo.endAt}
+                  completed={todo.completed}
+                  overdue={overdue}
+                  onEdit={setEditingId}
+                  onToggleComplete={setCompleted}
+                  onDelete={handleDelete}
+                />
               )}
             </div>
           );

@@ -1,6 +1,6 @@
 import { TodoFilter } from "../features/todo/filter/todoFilter";
+import { TodoForm } from "../features/todo/form/todoForm";
 import { useTodoAtom } from "../features/todo/todoAtom";
-import { TodoForm } from "../features/todo/todoForm";
 import { TodoList } from "../features/todo/todoList";
 
 export const App = () => {

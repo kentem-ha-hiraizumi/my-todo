@@ -1,4 +1,4 @@
-import { useTodoAtom } from "./todoAtom";
+import { useTodoAtom } from "../todoAtom";
 
 export const TodoForm = () => {
   const { addTodo } = useTodoAtom();
