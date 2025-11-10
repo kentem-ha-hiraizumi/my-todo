@@ -1,12 +1,22 @@
-import { DisplayText } from "../features/input/displayText";
-import { InputContainer } from "../features/input/InputContainer";
+import { TodoFilter } from "../features/todo/filter/todoFilter";
+import { TodoForm } from "../features/todo/form/todoForm";
+import { TodoList } from "../features/todo/todoList";
+import { TodoStatus } from "../features/todo/todoStatus";
 
 export const App = () => {
   return (
-    <main className="p-4 flex flex-col gap-4 items-center">
-      <h1 className=" text-4xl text-teal-700 text-center">Simple React App</h1>
-      <DisplayText />
-      <InputContainer />
+    <main className="p-8 flex flex-col gap-6 items-center min-h-screen">
+      <h1 className="text-4xl font-bold text-cyan-700 mb-2">My ToDo</h1>
+      <div className="flex flex-wrap justify-center gap-8">
+        <div className="space-y-8">
+          <TodoStatus />
+          <TodoForm />
+        </div>
+        <div className="space-y-8">
+          <TodoFilter />
+          <TodoList />
+        </div>
+      </div>
     </main>
   );
 };
