@@ -25,16 +25,16 @@ export const TodoItem = ({
         <h2
           className={`text-lg font-semibold ${
             completed
-              ? "line-through text-gray-500"
+              ? "line-through text-slate-400"
               : overdue
-                ? "text-red-700 font-bold"
-                : ""
+                ? "text-red-600 font-bold"
+                : "text-slate-700"
           }`}
         >
           {title}
         </h2>
         <p
-          className={`text-sm ${overdue ? "text-red-600 font-semibold" : "text-gray-500"}`}
+          className={`text-sm ${overdue ? "text-red-500 font-semibold" : "text-slate-500"}`}
         >
           {endAt
             ? `期日: ${new Date(endAt).toLocaleDateString()}${overdue ? " (期限超過)" : ""}`
@@ -44,23 +44,23 @@ export const TodoItem = ({
       <div className="flex gap-2">
         <button
           type="button"
-          className="bg-blue-500 text-white px-3 py-1 rounded cursor-pointer hover:bg-blue-600"
+          className="bg-cyan-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-cyan-600 transition-colors duration-200 shadow-sm font-medium"
           onClick={() => onEdit(id)}
         >
           編集
         </button>
         <button
           type="button"
-          className={`text-white px-3 py-1 rounded cursor-pointer ${completed ? "bg-gray-400 hover:bg-gray-500" : "bg-teal-600 hover:bg-teal-800"}`}
+          className={`text-white px-4 py-2 rounded-lg cursor-pointer transition-colors duration-200 shadow-sm font-medium ${completed ? "bg-slate-400 hover:bg-slate-500" : "bg-teal-500 hover:bg-teal-600"}`}
           onClick={() => {
             onToggleComplete(id, !completed);
           }}
         >
-          {completed ? "戻す" : "完了する"}
+          {completed ? "戻す" : "完了"}
         </button>
         <button
           type="button"
-          className={`border-2  text-white p-1 rounded cursor-pointer ${completed ? "border-slate-400 hover:bg-slate-300" : "border-red-700 hover:bg-red-200"}`}
+          className={`px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 shadow-sm ${completed ? "bg-slate-200 hover:bg-slate-300 text-slate-600" : "bg-red-50 hover:bg-red-100 text-red-600 border border-red-200"}`}
           onClick={() => {
             onDelete(id, completed);
           }}

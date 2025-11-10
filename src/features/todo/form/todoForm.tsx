@@ -16,31 +16,35 @@ export const TodoForm = () => {
 
   return (
     <form
-      className="p-4 bg-slate-100 w-120 max-w-[90%] rounded"
+      className="p-6 bg-white/80 backdrop-blur-sm w-120 max-w-[90%] rounded-xl shadow-lg border border-cyan-100"
       action={onSubmit}
     >
-      <label>
-        名前
+      <label className="block mb-4">
+        <span className="text-slate-700 font-medium text-sm mb-2 block">
+          名前
+        </span>
         <input
           type="text"
           name="title"
-          className="p-2 border-2 border-slate-300 rounded w-full"
+          className="p-3 border-2 border-cyan-200 rounded-lg w-full focus:border-cyan-400 focus:outline-none transition-colors duration-200"
           placeholder="ToDo名を入力"
           maxLength={100}
           required
         />
       </label>
-      <label>
-        期日
+      <label className="block mb-4">
+        <span className="text-slate-700 font-medium text-sm mb-2 block">
+          期日
+        </span>
         <input
           type="date"
           name="endAt"
-          className="p-2 border-2 border-slate-300 rounded w-full"
+          className="p-3 border-2 border-cyan-200 rounded-lg w-full focus:border-cyan-400 focus:outline-none transition-colors duration-200"
         />
       </label>
       <button
         type="submit"
-        className="mt-4 px-4 py-2 w-full cursor-pointer bg-teal-600 text-white rounded hover:bg-teal-700"
+        className="mt-2 px-6 py-3 w-full cursor-pointer bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors duration-200 shadow-md font-medium"
       >
         ToDoを追加
       </button>

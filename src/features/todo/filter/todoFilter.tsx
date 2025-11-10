@@ -9,21 +9,21 @@ export const TodoFilter = () => {
       <div className="flex gap-2">
         <button
           type="button"
-          className={`px-3 py-1 rounded ${filter === "all" ? "bg-sky-600 text-white" : "bg-gray-200"}`}
+          className={`px-4 py-2 rounded-lg transition-all duration-200 font-medium shadow-sm ${filter === "all" ? "bg-cyan-500 text-white shadow-md" : "bg-white/80 text-slate-700 hover:bg-cyan-50 border border-cyan-200"}`}
           onClick={() => setFilter("all")}
         >
           すべて
         </button>
         <button
           type="button"
-          className={`px-3 py-1 rounded ${filter === "active" ? "bg-sky-600 text-white" : "bg-gray-200"}`}
+          className={`px-4 py-2 rounded-lg transition-all duration-200 font-medium shadow-sm ${filter === "active" ? "bg-cyan-500 text-white shadow-md" : "bg-white/80 text-slate-700 hover:bg-cyan-50 border border-cyan-200"}`}
           onClick={() => setFilter("active")}
         >
           未完了
         </button>
         <button
           type="button"
-          className={`px-3 py-1 rounded ${filter === "completed" ? "bg-sky-600 text-white" : "bg-gray-200"}`}
+          className={`px-4 py-2 rounded-lg transition-all duration-200 font-medium shadow-sm ${filter === "completed" ? "bg-cyan-500 text-white shadow-md" : "bg-white/80 text-slate-700 hover:bg-cyan-50 border border-cyan-200"}`}
           onClick={() => setFilter("completed")}
         >
           完了済み
@@ -34,7 +34,7 @@ export const TodoFilter = () => {
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value as SortType)}
-          className="px-3 py-1 rounded border-2 border-gray-300"
+          className="px-4 py-2 rounded-lg border-2 border-cyan-200 bg-white/80 text-slate-700 font-medium shadow-sm focus:border-cyan-400 focus:outline-none transition-colors duration-200"
         >
           <option value="none">並び替えなし</option>
           <option value="date-asc">期日が近い順</option>

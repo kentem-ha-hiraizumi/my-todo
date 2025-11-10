@@ -29,31 +29,31 @@ export const TodoEditForm = ({
 
   return (
     <>
-      <div className="flex-1 space-y-2">
+      <div className="flex-1 space-y-3">
         <input
           type="text"
           value={editTitle}
           onChange={(e) => setEditTitle(e.target.value)}
-          className="w-full p-2 border-2 border-slate-300 rounded"
+          className="w-full p-3 border-2 border-cyan-200 rounded-lg focus:border-cyan-400 focus:outline-none transition-colors duration-200"
         />
         <input
           type="date"
           value={editEndAt}
           onChange={(e) => setEditEndAt(e.target.value)}
-          className="w-full p-2 border-2 border-slate-300 rounded"
+          className="w-full p-3 border-2 border-cyan-200 rounded-lg focus:border-cyan-400 focus:outline-none transition-colors duration-200"
         />
       </div>
-      <div className="flex gap-2 ml-2">
+      <div className="flex gap-2 ml-3">
         <button
           type="button"
-          className="bg-teal-600 text-white px-3 py-1 rounded cursor-pointer hover:bg-teal-700"
+          className="bg-cyan-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-cyan-600 transition-colors duration-200 shadow-sm font-medium"
           onClick={handleSave}
         >
           保存
         </button>
         <button
           type="button"
-          className="bg-gray-400 text-white px-3 py-1 rounded cursor-pointer hover:bg-gray-500"
+          className="bg-slate-400 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-slate-500 transition-colors duration-200 shadow-sm font-medium"
           onClick={onCancel}
         >
           キャンセル
