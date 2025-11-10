@@ -1,5 +1,5 @@
+import { TodoFilter } from "../features/todo/filter/todoFilter";
 import { useTodoAtom } from "../features/todo/todoAtom";
-import { TodoFilter } from "../features/todo/todoFilter";
 import { TodoForm } from "../features/todo/todoForm";
 import { TodoList } from "../features/todo/todoList";
 

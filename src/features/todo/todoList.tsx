@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useFilterAtom } from "./filterAtom";
+import { useFilteredTodos } from "./filter/useFilteredTodos";
 import { useTodoAtom } from "./todoAtom";
 import { TodoEditForm } from "./todoEditForm";
 
 export const TodoList = () => {
   const { todos, setCompleted, removeTodo, updateTodo } = useTodoAtom();
-  const { filter, sort } = useFilterAtom();
+  const sortedTodos = useFilteredTodos(todos);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
@@ -43,30 +43,6 @@ export const TodoList = () => {
     today.setHours(0, 0, 0, 0);
     return endAt < today.getTime();
   };
-
-  // フィルタリング
-  let filteredTodos = todos;
-  if (filter === "active") {
-    filteredTodos = todos.filter((todo) => !todo.completed);
-  } else if (filter === "completed") {
-    filteredTodos = todos.filter((todo) => todo.completed);
-  }
-
-  // ソート
-  const sortedTodos = [...filteredTodos];
-  if (sort === "date-asc") {
-    sortedTodos.sort((a, b) => {
-      if (!a.endAt) return 1;
-      if (!b.endAt) return -1;
-      return a.endAt - b.endAt;
-    });
-  } else if (sort === "date-desc") {
-    sortedTodos.sort((a, b) => {
-      if (!a.endAt) return 1;
-      if (!b.endAt) return -1;
-      return b.endAt - a.endAt;
-    });
-  }
 
   if (sortedTodos.length === 0) {
     return (
