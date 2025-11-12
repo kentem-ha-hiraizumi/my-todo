@@ -45,6 +45,16 @@ export const TodoList = () => {
     return endAt < today.getTime();
   };
 
+  // 本日期限の判定
+  const isDueToday = (endAt?: number, completed?: boolean) => {
+    if (!endAt || completed) return false;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return endAt >= today.getTime() && endAt < tomorrow.getTime();
+  };
+
   if (sortedTodos.length === 0) {
     return (
       <div className="p-6 bg-white/60 backdrop-blur-sm w-120 max-w-[90%] rounded-xl shadow-lg text-center border border-cyan-100">
@@ -58,6 +68,7 @@ export const TodoList = () => {
       <div className="p-4 bg-white/60 backdrop-blur-sm w-120 max-w-[90%] rounded-xl shadow-lg space-y-3 border border-cyan-100">
         {sortedTodos.map((todo) => {
           const overdue = isOverdue(todo.endAt, todo.completed);
+          const dueToday = isDueToday(todo.endAt, todo.completed);
           return (
             <div
               key={todo.id}
@@ -66,7 +77,9 @@ export const TodoList = () => {
                   ? "bg-slate-50/80"
                   : overdue
                     ? "bg-red-50 border-2 border-red-300"
-                    : "bg-white/90 border border-cyan-100/50"
+                    : dueToday
+                      ? "bg-blue-50 border-2 border-blue-300"
+                      : "bg-white/90 border border-cyan-100/50"
               }`}
             >
               {editingId === todo.id ? (
@@ -84,6 +97,7 @@ export const TodoList = () => {
                   endAt={todo.endAt}
                   completed={todo.completed}
                   overdue={overdue}
+                  dueToday={dueToday}
                   onEdit={setEditingId}
                   onToggleComplete={setCompleted}
                   onDelete={handleDelete}
