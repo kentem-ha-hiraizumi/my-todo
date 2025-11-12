@@ -4,6 +4,7 @@ type TodoItemProps = {
   endAt?: number;
   completed: boolean;
   overdue: boolean;
+  dueToday: boolean;
   onEdit: (id: string) => void;
   onToggleComplete: (id: string, completed: boolean) => void;
   onDelete: (id: string, completed: boolean) => void;
@@ -15,6 +16,7 @@ export const TodoItem = ({
   endAt,
   completed,
   overdue,
+  dueToday,
   onEdit,
   onToggleComplete,
   onDelete,
@@ -28,16 +30,24 @@ export const TodoItem = ({
               ? "line-through text-slate-400"
               : overdue
                 ? "text-red-600 font-bold"
-                : "text-slate-700"
+                : dueToday
+                  ? "text-blue-600 font-bold"
+                  : "text-slate-700"
           }`}
         >
           {title}
         </h2>
         <p
-          className={`text-sm ${overdue ? "text-red-500 font-semibold" : "text-slate-500"}`}
+          className={`text-sm ${
+            overdue
+              ? "text-red-500 font-semibold"
+              : dueToday
+                ? "text-blue-500 font-semibold"
+                : "text-slate-500"
+          }`}
         >
           {endAt
-            ? `期日: ${new Date(endAt).toLocaleDateString()}${overdue ? " (期限超過)" : ""}`
+            ? `期日: ${new Date(endAt).toLocaleDateString()}${overdue ? " (期限超過)" : dueToday ? " (本日期限)" : ""}`
             : "期限なし"}
         </p>
       </div>
