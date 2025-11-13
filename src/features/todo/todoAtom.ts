@@ -6,6 +6,7 @@ export type Todo = {
   title: string;
   completed: boolean;
   endAt?: number; // UNIX timestamp
+  url?: string;
 };
 
 const todoAtom = atomWithStorage<Todo[]>("todo", []);

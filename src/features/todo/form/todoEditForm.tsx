@@ -4,7 +4,11 @@ type TodoEditFormProps = {
   id: string;
   title: string;
   endAt?: number;
-  onUpdate: (id: string, data: { title: string; endAt?: number }) => void;
+  url?: string;
+  onUpdate: (
+    id: string,
+    data: { title: string; endAt?: number; url?: string },
+  ) => void;
   onCancel: () => void;
 };
 
@@ -12,6 +16,7 @@ export const TodoEditForm = ({
   id,
   title,
   endAt,
+  url,
   onUpdate,
   onCancel,
 }: TodoEditFormProps) => {
@@ -19,11 +24,13 @@ export const TodoEditForm = ({
   const [editEndAt, setEditEndAt] = useState(
     endAt ? new Date(endAt).toISOString().split("T")[0] : "",
   );
+  const [editUrl, setEditUrl] = useState(url || "");
 
   const handleSave = () => {
     onUpdate(id, {
       title: editTitle,
       endAt: editEndAt ? new Date(editEndAt).getTime() : undefined,
+      url: editUrl || undefined,
     });
   };
 
@@ -40,6 +47,13 @@ export const TodoEditForm = ({
           type="date"
           value={editEndAt}
           onChange={(e) => setEditEndAt(e.target.value)}
+          className="w-full p-3 border-2 border-cyan-200 rounded-lg focus:border-cyan-400 focus:outline-none transition-colors duration-200"
+        />
+        <input
+          type="url"
+          value={editUrl}
+          onChange={(e) => setEditUrl(e.target.value)}
+          placeholder="https://example.com"
           className="w-full p-3 border-2 border-cyan-200 rounded-lg focus:border-cyan-400 focus:outline-none transition-colors duration-200"
         />
       </div>

@@ -2,6 +2,7 @@ type TodoItemProps = {
   id: string;
   title: string;
   endAt?: number;
+  url?: string;
   completed: boolean;
   overdue: boolean;
   dueToday: boolean;
@@ -14,6 +15,7 @@ export const TodoItem = ({
   id,
   title,
   endAt,
+  url,
   completed,
   overdue,
   dueToday,
@@ -24,19 +26,38 @@ export const TodoItem = ({
   return (
     <div className="space-y-2">
       <div className="flex-1">
-        <h2
-          className={`text-lg font-semibold ${
-            completed
-              ? "line-through text-slate-400"
-              : overdue
-                ? "text-red-600 font-bold"
-                : dueToday
-                  ? "text-blue-600 font-bold"
-                  : "text-slate-700"
-          }`}
-        >
-          {title}
-        </h2>
+        {url ? (
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`text-lg font-semibold hover:underline ${
+              completed
+                ? "line-through text-slate-400"
+                : overdue
+                  ? "text-red-600 font-bold"
+                  : dueToday
+                    ? "text-sky-500 font-bold"
+                    : "text-sky-500"
+            }`}
+          >
+            {title}
+          </a>
+        ) : (
+          <h2
+            className={`text-lg font-semibold ${
+              completed
+                ? "line-through text-slate-400"
+                : overdue
+                  ? "text-red-600 font-bold"
+                  : dueToday
+                    ? "text-blue-600 font-bold"
+                    : "text-slate-700"
+            }`}
+          >
+            {title}
+          </h2>
+        )}
         <p
           className={`text-sm ${
             overdue

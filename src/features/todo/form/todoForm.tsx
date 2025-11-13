@@ -7,10 +7,12 @@ export const TodoForm = () => {
     const formData = Object.fromEntries(data.entries());
     const title = formData.title as string;
     const endAtStr = formData.endAt as string;
+    const url = formData.url as string;
 
     addTodo({
       title,
       endAt: endAtStr ? new Date(endAtStr).getTime() : undefined,
+      url: url || undefined,
     });
   };
 
@@ -40,6 +42,17 @@ export const TodoForm = () => {
           type="date"
           name="endAt"
           className="p-3 border-2 border-cyan-200 rounded-lg w-full focus:border-cyan-400 focus:outline-none transition-colors duration-200"
+        />
+      </label>
+      <label className="block mb-4">
+        <span className="text-slate-700 font-medium text-sm mb-2 block">
+          リンク（URL）
+        </span>
+        <input
+          type="url"
+          name="url"
+          className="p-3 border-2 border-cyan-200 rounded-lg w-full focus:border-cyan-400 focus:outline-none transition-colors duration-200"
+          placeholder="https://example.com"
         />
       </label>
       <button
