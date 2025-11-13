@@ -12,7 +12,7 @@ export const TodoList = () => {
 
   const handleUpdate = (
     id: string,
-    data: { title: string; endAt?: number },
+    data: { title: string; endAt?: number; url?: string },
   ) => {
     updateTodo(id, data);
     setEditingId(null);
@@ -87,6 +87,7 @@ export const TodoList = () => {
                   id={todo.id}
                   title={todo.title}
                   endAt={todo.endAt}
+                  url={todo.url}
                   onUpdate={handleUpdate}
                   onCancel={() => setEditingId(null)}
                 />
@@ -95,6 +96,7 @@ export const TodoList = () => {
                   id={todo.id}
                   title={todo.title}
                   endAt={todo.endAt}
+                  url={todo.url}
                   completed={todo.completed}
                   overdue={overdue}
                   dueToday={dueToday}
