@@ -37,8 +37,8 @@ export const TodoItem = ({
                 : overdue
                   ? "text-red-600 font-bold"
                   : dueToday
-                    ? "text-blue-600 font-bold"
-                    : "text-slate-700"
+                    ? "text-sky-500 font-bold"
+                    : "text-sky-500"
             }`}
           >
             {title}
