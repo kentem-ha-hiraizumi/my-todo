@@ -36,7 +36,6 @@ export const TodoFilter = () => {
           onChange={(e) => setSort(e.target.value as SortType)}
           className="px-4 py-2 rounded-lg border-2 border-cyan-200 bg-white/80 text-slate-700 font-medium shadow-sm focus:border-cyan-400 focus:outline-none transition-colors duration-200"
         >
-          <option value="none">並び替えなし</option>
           <option value="date-asc">期日が近い順</option>
           <option value="date-desc">期日が遠い順</option>
         </select>
