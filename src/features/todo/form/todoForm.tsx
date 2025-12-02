@@ -28,7 +28,7 @@ export const TodoForm = () => {
         <input
           type="text"
           name="title"
-          className="p-3 border-2 border-cyan-200 rounded-lg w-full focus:border-cyan-400 focus:outline-none transition-colors duration-200"
+          className="p-3 border-2 rounded-lg w-full border-zinc-400 focus:border-cyan-300 focus:outline-none transition-colors duration-200"
           placeholder="ToDo名を入力"
           maxLength={100}
           required
@@ -41,7 +41,7 @@ export const TodoForm = () => {
         <textarea
           name="note"
           rows={4}
-          className="p-3 border-2 border-cyan-200 rounded-lg w-full focus:border-cyan-400 focus:outline-none transition-colors duration-200 resize-none"
+          className="p-3 border-2 rounded-lg w-full border-zinc-400 focus:border-cyan-300 focus:outline-none transition-colors duration-200 resize-none"
           placeholder="ToDoの詳細"
           maxLength={1000}
           required
@@ -54,7 +54,7 @@ export const TodoForm = () => {
         <input
           type="date"
           name="endAt"
-          className="p-3 border-2 border-cyan-200 rounded-lg w-full focus:border-cyan-400 focus:outline-none transition-colors duration-200"
+          className="p-3 border-2 rounded-lg w-full border-zinc-400 focus:border-cyan-300 focus:outline-none transition-colors duration-200"
         />
       </label>
       <label className="block mb-4">
@@ -64,7 +64,7 @@ export const TodoForm = () => {
         <input
           type="url"
           name="url"
-          className="p-3 border-2 border-cyan-200 rounded-lg w-full focus:border-cyan-400 focus:outline-none transition-colors duration-200"
+          className="p-3 border-2 rounded-lg w-full border-zinc-400 focus:border-cyan-300 focus:outline-none transition-colors duration-200"
           placeholder="https://example.com"
         />
       </label>

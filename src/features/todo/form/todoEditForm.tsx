@@ -1,12 +1,10 @@
 import { useState } from "react";
 import type { Todo } from "../todoAtom";
+import { isDueToday, isOverdue } from "../utils/dateJudge";
 
 type TodoEditFormProps = {
   todo: Todo;
-  onUpdate: (
-    id: string,
-    data: { title: string; endAt?: number; url?: string },
-  ) => void;
+  onUpdate: (id: string, data: Partial<Omit<Todo, "id" | "completed">>) => void;
   onCancel: () => void;
 };
 
@@ -15,17 +13,27 @@ export const TodoEditForm = ({
   onUpdate,
   onCancel,
 }: TodoEditFormProps) => {
-  const { id, title, endAt, url } = todo;
+  const { id, title, endAt, url, completed } = todo;
+  const overdue = isOverdue(endAt, completed);
+  const dueToday = isDueToday(endAt, completed);
 
   const [editTitle, setEditTitle] = useState(title);
+  const [editNote, setEditNote] = useState(todo.note ?? "");
   const [editEndAt, setEditEndAt] = useState(
     endAt ? new Date(endAt).toISOString().split("T")[0] : "",
   );
-  const [editUrl, setEditUrl] = useState(url || "");
+  const [editUrl, setEditUrl] = useState(url ?? "");
+
+  const borderColor = overdue
+    ? "border-stone-400 focus:border-red-300"
+    : dueToday
+      ? "border-slate-400 focus:border-blue-300"
+      : "border-zinc-400 focus:border-cyan-300";
 
   const handleSave = () => {
     onUpdate(id, {
       title: editTitle,
+      note: editNote,
       endAt: editEndAt ? new Date(editEndAt).getTime() : undefined,
       url: editUrl || undefined,
     });
@@ -38,20 +46,32 @@ export const TodoEditForm = ({
           type="text"
           value={editTitle}
           onChange={(e) => setEditTitle(e.target.value)}
-          className="w-full p-3 border-2 border-cyan-200 rounded-lg focus:border-cyan-400 focus:outline-none transition-colors duration-200"
+          className={`w-full p-3 border-2 rounded-lg focus:outline-none transition-colors duration-200 ${
+            borderColor
+          }`}
+        />
+        <textarea
+          name="note"
+          value={editNote}
+          onChange={(e) => setEditNote(e.target.value)}
+          rows={4}
+          className={`p-3 border-2 rounded-lg w-full focus:outline-none transition-colors duration-200 resize-none ${borderColor}`}
+          placeholder="ToDoの詳細"
+          maxLength={1000}
+          required
         />
         <input
           type="date"
           value={editEndAt}
           onChange={(e) => setEditEndAt(e.target.value)}
-          className="w-full p-3 border-2 border-cyan-200 rounded-lg focus:border-cyan-400 focus:outline-none transition-colors duration-200"
+          className={`w-full p-3 border-2 rounded-lg  focus:outline-none transition-colors duration-200 ${borderColor}`}
         />
         <input
           type="url"
           value={editUrl}
           onChange={(e) => setEditUrl(e.target.value)}
           placeholder="https://example.com"
-          className="w-full p-3 border-2 border-cyan-200 rounded-lg focus:border-cyan-400 focus:outline-none transition-colors duration-200"
+          className={`w-full p-3 border-2 rounded-lg focus:outline-none transition-colors duration-200 ${borderColor}`}
         />
       </div>
       <div className="flex gap-2">

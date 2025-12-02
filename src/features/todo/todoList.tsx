@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useGroupedTodos } from "./filter/useGroupedTodos";
 import { TodoEditForm } from "./form/todoEditForm";
 import { TodoItem } from "./item/todoItem";
-import { useTodoAtom } from "./todoAtom";
+import { type Todo, useTodoAtom } from "./todoAtom";
 import { isDueToday, isOverdue } from "./utils/dateJudge";
 
 export const TodoList = () => {
@@ -12,7 +12,7 @@ export const TodoList = () => {
 
   const handleUpdate = (
     id: string,
-    data: { title: string; endAt?: number; url?: string },
+    data: Partial<Omit<Todo, "id" | "completed">>,
   ) => {
     updateTodo(id, data);
     setEditingId(null);
