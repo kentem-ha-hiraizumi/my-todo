@@ -58,7 +58,6 @@ export const TodoEditForm = ({
           className={`w-full resize-none rounded-lg border-2 p-3 transition-colors duration-200 focus:outline-none ${borderColor}`}
           placeholder="ToDoの詳細"
           maxLength={1000}
-          required
         />
         <input
           type="date"
