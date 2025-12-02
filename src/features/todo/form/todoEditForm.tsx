@@ -1,10 +1,8 @@
 import { useState } from "react";
+import type { Todo } from "../todoAtom";
 
 type TodoEditFormProps = {
-  id: string;
-  title: string;
-  endAt?: number;
-  url?: string;
+  todo: Todo;
   onUpdate: (
     id: string,
     data: { title: string; endAt?: number; url?: string },
@@ -13,13 +11,12 @@ type TodoEditFormProps = {
 };
 
 export const TodoEditForm = ({
-  id,
-  title,
-  endAt,
-  url,
+  todo,
   onUpdate,
   onCancel,
 }: TodoEditFormProps) => {
+  const { id, title, endAt, url } = todo;
+
   const [editTitle, setEditTitle] = useState(title);
   const [editEndAt, setEditEndAt] = useState(
     endAt ? new Date(endAt).toISOString().split("T")[0] : "",

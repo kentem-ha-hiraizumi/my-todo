@@ -1,31 +1,21 @@
+import type { Todo } from "../todoAtom";
+import { isDueToday, isOverdue } from "../utils/dateJudge";
+import { TodoItemNavigation } from "./todoItemNavigation";
+
 type TodoItemProps = {
-  id: string;
-  title: string;
-  endAt?: number;
-  url?: string;
-  completed: boolean;
-  overdue: boolean;
-  dueToday: boolean;
+  todo: Todo;
   onEdit: (id: string) => void;
   onToggleComplete: (id: string, completed: boolean) => void;
-  onDelete: (id: string, completed: boolean) => void;
 };
 
-export const TodoItem = ({
-  id,
-  title,
-  endAt,
-  url,
-  completed,
-  overdue,
-  dueToday,
-  onEdit,
-  onToggleComplete,
-  onDelete,
-}: TodoItemProps) => {
+export const TodoItem = ({ todo, onEdit, onToggleComplete }: TodoItemProps) => {
+  const { id, title, note, endAt, url, completed } = todo;
+  const overdue = isOverdue(endAt, completed);
+  const dueToday = isDueToday(endAt, completed);
+
   return (
     <div className="space-y-2">
-      <div className="flex-1">
+      <div className="flex-1 space-y-1">
         {url ? (
           <a
             href={url}
@@ -58,6 +48,14 @@ export const TodoItem = ({
             {title}
           </h2>
         )}
+        {note && (
+          <details>
+            <summary className="cursor-pointer text-sm text-slate-500">
+              詳細
+            </summary>
+            <div className="text-slate-600 whitespace-pre-wrap">{note}</div>
+          </details>
+        )}
         <p
           className={`text-sm ${
             overdue
@@ -72,33 +70,12 @@ export const TodoItem = ({
             : "期限なし"}
         </p>
       </div>
-      <div className="flex gap-2">
-        <button
-          type="button"
-          className="bg-cyan-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-cyan-600 transition-colors duration-200 shadow-sm font-medium"
-          onClick={() => onEdit(id)}
-        >
-          編集
-        </button>
-        <button
-          type="button"
-          className={`text-white px-4 py-2 rounded-lg cursor-pointer transition-colors duration-200 shadow-sm font-medium ${completed ? "bg-slate-400 hover:bg-slate-500" : "bg-teal-500 hover:bg-teal-600"}`}
-          onClick={() => {
-            onToggleComplete(id, !completed);
-          }}
-        >
-          {completed ? "戻す" : "完了"}
-        </button>
-        <button
-          type="button"
-          className={`px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 shadow-sm ${completed ? "bg-slate-200 hover:bg-slate-300 text-slate-600" : "bg-red-50 hover:bg-red-100 text-red-600 border border-red-200"}`}
-          onClick={() => {
-            onDelete(id, completed);
-          }}
-        >
-          🗑️
-        </button>
-      </div>
+      <TodoItemNavigation
+        id={id}
+        completed={completed}
+        onEdit={onEdit}
+        onToggleComplete={onToggleComplete}
+      />
     </div>
   );
 };

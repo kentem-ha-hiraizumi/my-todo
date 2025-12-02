@@ -7,6 +7,7 @@ export type Todo = {
   completed: boolean;
   endAt?: number; // UNIX timestamp
   url?: string;
+  note?: string;
 };
 
 const todoAtom = atomWithStorage<Todo[]>("todo", []);
@@ -20,14 +21,17 @@ export const useTodoAtom = () => {
       { ...newTodo, id: crypto.randomUUID(), completed: false },
     ]);
   };
+
   const removeTodo = (id: string) => {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
+
   const setCompleted = (id: string, completed: boolean) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) => (todo.id === id ? { ...todo, completed } : todo)),
     );
   };
+
   const updateTodo = (
     id: string,
     updates: Partial<Omit<Todo, "id" | "completed">>,
