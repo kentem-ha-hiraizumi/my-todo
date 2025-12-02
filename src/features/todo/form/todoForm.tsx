@@ -44,7 +44,6 @@ export const TodoForm = () => {
           className="w-full resize-none rounded-lg border-2 border-zinc-400 p-3 transition-colors duration-200 focus:border-cyan-300 focus:outline-none"
           placeholder="ToDoの詳細"
           maxLength={1000}
-          required
         />
       </label>
       <label className="mb-4 block">
