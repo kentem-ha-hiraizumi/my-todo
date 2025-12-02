@@ -14,11 +14,11 @@ export const InputContainer = () => {
       <input
         name="title"
         type="text"
-        className="p-2 border-2 border-slate-500 rounded"
+        className="rounded border-2 border-slate-500 p-2"
       />
       <button
         type="submit"
-        className="px-4 py-2 bg-slate-700 text-white rounded"
+        className="rounded bg-slate-700 px-4 py-2 text-white"
       >
         Submit
       </button>

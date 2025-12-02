@@ -18,59 +18,59 @@ export const TodoForm = () => {
 
   return (
     <form
-      className="p-6 bg-white/80 backdrop-blur-sm w-120 max-w-[90%] rounded-xl shadow-lg border border-cyan-100"
+      className="w-120 max-w-[90%] rounded-xl border border-cyan-100 bg-white/80 p-6 shadow-lg backdrop-blur-sm"
       action={onSubmit}
     >
-      <label className="block mb-4">
-        <span className="text-slate-700 font-medium text-sm mb-2 block">
+      <label className="mb-4 block">
+        <span className="mb-2 block font-medium text-slate-700 text-sm">
           名前
         </span>
         <input
           type="text"
           name="title"
-          className="p-3 border-2 rounded-lg w-full border-zinc-400 focus:border-cyan-300 focus:outline-none transition-colors duration-200"
+          className="w-full rounded-lg border-2 border-zinc-400 p-3 transition-colors duration-200 focus:border-cyan-300 focus:outline-none"
           placeholder="ToDo名を入力"
           maxLength={100}
           required
         />
       </label>
-      <label className="block mb-4">
-        <span className="text-slate-700 font-medium text-sm mb-2 block">
+      <label className="mb-4 block">
+        <span className="mb-2 block font-medium text-slate-700 text-sm">
           詳細
         </span>
         <textarea
           name="note"
           rows={4}
-          className="p-3 border-2 rounded-lg w-full border-zinc-400 focus:border-cyan-300 focus:outline-none transition-colors duration-200 resize-none"
+          className="w-full resize-none rounded-lg border-2 border-zinc-400 p-3 transition-colors duration-200 focus:border-cyan-300 focus:outline-none"
           placeholder="ToDoの詳細"
           maxLength={1000}
           required
         />
       </label>
-      <label className="block mb-4">
-        <span className="text-slate-700 font-medium text-sm mb-2 block">
+      <label className="mb-4 block">
+        <span className="mb-2 block font-medium text-slate-700 text-sm">
           期日
         </span>
         <input
           type="date"
           name="endAt"
-          className="p-3 border-2 rounded-lg w-full border-zinc-400 focus:border-cyan-300 focus:outline-none transition-colors duration-200"
+          className="w-full rounded-lg border-2 border-zinc-400 p-3 transition-colors duration-200 focus:border-cyan-300 focus:outline-none"
         />
       </label>
-      <label className="block mb-4">
-        <span className="text-slate-700 font-medium text-sm mb-2 block">
+      <label className="mb-4 block">
+        <span className="mb-2 block font-medium text-slate-700 text-sm">
           リンク（URL）
         </span>
         <input
           type="url"
           name="url"
-          className="p-3 border-2 rounded-lg w-full border-zinc-400 focus:border-cyan-300 focus:outline-none transition-colors duration-200"
+          className="w-full rounded-lg border-2 border-zinc-400 p-3 transition-colors duration-200 focus:border-cyan-300 focus:outline-none"
           placeholder="https://example.com"
         />
       </label>
       <button
         type="submit"
-        className="mt-2 px-6 py-3 w-full cursor-pointer bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors duration-200 shadow-md font-medium"
+        className="mt-2 w-full cursor-pointer rounded-lg bg-cyan-500 px-6 py-3 font-medium text-white shadow-md transition-colors duration-200 hover:bg-cyan-600"
       >
         ToDoを追加
       </button>

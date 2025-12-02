@@ -46,7 +46,7 @@ export const TodoEditForm = ({
           type="text"
           value={editTitle}
           onChange={(e) => setEditTitle(e.target.value)}
-          className={`w-full p-3 border-2 rounded-lg focus:outline-none transition-colors duration-200 ${
+          className={`w-full rounded-lg border-2 p-3 transition-colors duration-200 focus:outline-none ${
             borderColor
           }`}
         />
@@ -55,7 +55,7 @@ export const TodoEditForm = ({
           value={editNote}
           onChange={(e) => setEditNote(e.target.value)}
           rows={4}
-          className={`p-3 border-2 rounded-lg w-full focus:outline-none transition-colors duration-200 resize-none ${borderColor}`}
+          className={`w-full resize-none rounded-lg border-2 p-3 transition-colors duration-200 focus:outline-none ${borderColor}`}
           placeholder="ToDoの詳細"
           maxLength={1000}
           required
@@ -64,27 +64,27 @@ export const TodoEditForm = ({
           type="date"
           value={editEndAt}
           onChange={(e) => setEditEndAt(e.target.value)}
-          className={`w-full p-3 border-2 rounded-lg  focus:outline-none transition-colors duration-200 ${borderColor}`}
+          className={`w-full rounded-lg border-2 p-3 transition-colors duration-200 focus:outline-none ${borderColor}`}
         />
         <input
           type="url"
           value={editUrl}
           onChange={(e) => setEditUrl(e.target.value)}
           placeholder="https://example.com"
-          className={`w-full p-3 border-2 rounded-lg focus:outline-none transition-colors duration-200 ${borderColor}`}
+          className={`w-full rounded-lg border-2 p-3 transition-colors duration-200 focus:outline-none ${borderColor}`}
         />
       </div>
       <div className="flex gap-2">
         <button
           type="button"
-          className="bg-cyan-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-cyan-600 transition-colors duration-200 shadow-sm font-medium"
+          className="cursor-pointer rounded-lg bg-cyan-500 px-4 py-2 font-medium text-white shadow-sm transition-colors duration-200 hover:bg-cyan-600"
           onClick={handleSave}
         >
           保存
         </button>
         <button
           type="button"
-          className="bg-slate-400 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-slate-500 transition-colors duration-200 shadow-sm font-medium"
+          className="cursor-pointer rounded-lg bg-slate-400 px-4 py-2 font-medium text-white shadow-sm transition-colors duration-200 hover:bg-slate-500"
           onClick={onCancel}
         >
           キャンセル

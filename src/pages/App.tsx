@@ -5,8 +5,8 @@ import { TodoStatus } from "../features/todo/todoStatus";
 
 export const App = () => {
   return (
-    <main className="p-8 flex flex-col gap-6 items-center min-h-screen">
-      <h1 className="text-4xl font-bold text-cyan-700 mb-2">My ToDo</h1>
+    <main className="flex min-h-screen flex-col items-center gap-6 p-8">
+      <h1 className="mb-2 font-bold text-4xl text-cyan-700">My ToDo</h1>
       <div className="flex flex-wrap justify-center gap-8">
         <div className="space-y-8">
           <TodoStatus />

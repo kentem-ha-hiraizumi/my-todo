@@ -23,18 +23,18 @@ export const TodoList = () => {
 
   if (!hasAnyTodos) {
     return (
-      <div className="p-6 bg-white/60 backdrop-blur-sm w-120 max-w-[90%] rounded-xl shadow-lg text-center border border-cyan-100">
+      <div className="w-120 max-w-[90%] rounded-xl border border-cyan-100 bg-white/60 p-6 text-center shadow-lg backdrop-blur-sm">
         <p className="text-slate-500">タスクがありません</p>
       </div>
     );
   }
 
   return (
-    <div className="p-4 bg-white/60 backdrop-blur-sm w-120 max-w-[90%] rounded-xl shadow-lg space-y-6 border border-cyan-100">
+    <div className="w-120 max-w-[90%] space-y-6 rounded-xl border border-cyan-100 bg-white/60 p-4 shadow-lg backdrop-blur-sm">
       {groupedTodos.map(({ year, months }) => (
         <div key={year} className="space-y-4">
           {/* 年セクションヘッダー */}
-          <h2 className="text-2xl font-bold text-slate-800">
+          <h2 className="font-bold text-2xl text-slate-800">
             {year === "no-date" ? "期限なし" : `${year}年`}
           </h2>
 
@@ -43,7 +43,7 @@ export const TodoList = () => {
             <div key={month} className="space-y-3">
               {/* 月グループヘッダー（期限なしの場合は表示しない） */}
               {year !== "no-date" && (
-                <h3 className="text-lg font-semibold text-slate-700">
+                <h3 className="font-semibold text-lg text-slate-700">
                   {month}月
                 </h3>
               )}
@@ -56,14 +56,14 @@ export const TodoList = () => {
                 return (
                   <div
                     key={todo.id}
-                    className={`flex items-center px-5 py-4 rounded-lg shadow-sm transition-all duration-200 ${
+                    className={`flex items-center rounded-lg px-5 py-4 shadow-sm transition-all duration-200 ${
                       todo.completed
                         ? "bg-slate-50/80"
                         : overdue
-                          ? "bg-red-50 border-2 border-red-300"
+                          ? "border-2 border-red-300 bg-red-50"
                           : dueToday
-                            ? "bg-blue-50 border-2 border-blue-300"
-                            : "bg-white/90 border border-cyan-100/50"
+                            ? "border-2 border-blue-300 bg-blue-50"
+                            : "border border-cyan-100/50 bg-white/90"
                     }`}
                   >
                     {editingId === todo.id ? (

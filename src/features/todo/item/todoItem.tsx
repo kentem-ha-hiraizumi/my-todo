@@ -21,13 +21,13 @@ export const TodoItem = ({ todo, onEdit, onToggleComplete }: TodoItemProps) => {
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className={`text-lg font-semibold hover:underline ${
+            className={`font-semibold text-lg hover:underline ${
               completed
-                ? "line-through text-slate-400"
+                ? "text-slate-400 line-through"
                 : overdue
-                  ? "text-red-600 font-bold"
+                  ? "font-bold text-red-600"
                   : dueToday
-                    ? "text-sky-500 font-bold"
+                    ? "font-bold text-sky-500"
                     : "text-sky-500"
             }`}
           >
@@ -35,13 +35,13 @@ export const TodoItem = ({ todo, onEdit, onToggleComplete }: TodoItemProps) => {
           </a>
         ) : (
           <h2
-            className={`text-lg font-semibold ${
+            className={`font-semibold text-lg ${
               completed
-                ? "line-through text-slate-400"
+                ? "text-slate-400 line-through"
                 : overdue
-                  ? "text-red-600 font-bold"
+                  ? "font-bold text-red-600"
                   : dueToday
-                    ? "text-blue-600 font-bold"
+                    ? "font-bold text-blue-600"
                     : "text-slate-700"
             }`}
           >
@@ -50,18 +50,18 @@ export const TodoItem = ({ todo, onEdit, onToggleComplete }: TodoItemProps) => {
         )}
         {note && (
           <details>
-            <summary className="cursor-pointer text-sm text-slate-500">
+            <summary className="cursor-pointer text-slate-500 text-sm">
               詳細
             </summary>
-            <div className="text-slate-600 whitespace-pre-wrap">{note}</div>
+            <div className="whitespace-pre-wrap text-slate-600">{note}</div>
           </details>
         )}
         <p
           className={`text-sm ${
             overdue
-              ? "text-red-500 font-semibold"
+              ? "font-semibold text-red-500"
               : dueToday
-                ? "text-blue-500 font-semibold"
+                ? "font-semibold text-blue-500"
                 : "text-slate-500"
           }`}
         >
