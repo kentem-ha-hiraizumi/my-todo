@@ -4,6 +4,7 @@ import { TodoEditForm } from "./form/todoEditForm";
 import { TodoItem } from "./item/todoItem";
 import { type Todo, useTodoAtom } from "./todoAtom";
 import { isDueToday, isOverdue } from "./utils/dateJudge";
+import { getTodoContainerStyle, getTodoVariant } from "./utils/todoVariant";
 
 export const TodoList = () => {
   const { todos, setCompleted, updateTodo } = useTodoAtom();
@@ -52,19 +53,16 @@ export const TodoList = () => {
               {todoList.map((todo) => {
                 const overdue = isOverdue(todo.endAt, todo.completed);
                 const dueToday = isDueToday(todo.endAt, todo.completed);
+                const variant = getTodoVariant(
+                  todo.completed,
+                  overdue,
+                  dueToday,
+                );
 
                 return (
                   <div
                     key={todo.id}
-                    className={`flex items-center rounded-lg px-5 py-4 shadow-sm transition-all duration-200 ${
-                      todo.completed
-                        ? "bg-slate-50/80"
-                        : overdue
-                          ? "border-2 border-red-300 bg-red-50"
-                          : dueToday
-                            ? "border-2 border-blue-300 bg-blue-50"
-                            : "border border-cyan-100/50 bg-white/90"
-                    }`}
+                    className={`flex items-center rounded-lg px-5 py-4 shadow-sm transition-all duration-200 ${getTodoContainerStyle(variant)}`}
                   >
                     {editingId === todo.id ? (
                       <TodoEditForm

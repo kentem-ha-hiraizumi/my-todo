@@ -1,5 +1,10 @@
 import type { Todo } from "../todoAtom";
 import { isDueToday, isOverdue } from "../utils/dateJudge";
+import {
+  getTodoDateStyle,
+  getTodoTitleStyle,
+  getTodoVariant,
+} from "../utils/todoVariant";
 import { TodoItemNavigation } from "./todoItemNavigation";
 
 type TodoItemProps = {
@@ -12,6 +17,7 @@ export const TodoItem = ({ todo, onEdit, onToggleComplete }: TodoItemProps) => {
   const { id, title, note, endAt, url, completed } = todo;
   const overdue = isOverdue(endAt, completed);
   const dueToday = isDueToday(endAt, completed);
+  const variant = getTodoVariant(completed, overdue, dueToday);
 
   return (
     <div className="space-y-2">
@@ -21,32 +27,12 @@ export const TodoItem = ({ todo, onEdit, onToggleComplete }: TodoItemProps) => {
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className={`font-semibold text-lg hover:underline ${
-              completed
-                ? "text-slate-400 line-through"
-                : overdue
-                  ? "font-bold text-red-600"
-                  : dueToday
-                    ? "font-bold text-sky-500"
-                    : "text-sky-500"
-            }`}
+            className={getTodoTitleStyle(variant, true)}
           >
             {title}
           </a>
         ) : (
-          <h2
-            className={`font-semibold text-lg ${
-              completed
-                ? "text-slate-400 line-through"
-                : overdue
-                  ? "font-bold text-red-600"
-                  : dueToday
-                    ? "font-bold text-blue-600"
-                    : "text-slate-700"
-            }`}
-          >
-            {title}
-          </h2>
+          <h2 className={getTodoTitleStyle(variant, false)}>{title}</h2>
         )}
         {note && (
           <details>
@@ -56,15 +42,7 @@ export const TodoItem = ({ todo, onEdit, onToggleComplete }: TodoItemProps) => {
             <div className="whitespace-pre-wrap text-slate-600">{note}</div>
           </details>
         )}
-        <p
-          className={`text-sm ${
-            overdue
-              ? "font-semibold text-red-500"
-              : dueToday
-                ? "font-semibold text-blue-500"
-                : "text-slate-500"
-          }`}
-        >
+        <p className={getTodoDateStyle(variant)}>
           {endAt
             ? `期日: ${new Date(endAt).toLocaleDateString()}${overdue ? " (期限超過)" : dueToday ? " (本日期限)" : ""}`
             : "期限なし"}
