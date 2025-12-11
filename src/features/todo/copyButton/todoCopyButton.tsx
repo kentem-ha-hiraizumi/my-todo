@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTodoAtom } from "../todoAtom";
 import {
   copyToClipboard,
@@ -12,8 +12,10 @@ export const TodoCopyButton = () => {
     "idle",
   );
 
+  // 緊急タスクをメモ化して重複計算を避ける
+  const urgentTodos = useMemo(() => filterUrgentTodos(todos), [todos]);
+
   const handleCopy = async () => {
-    const urgentTodos = filterUrgentTodos(todos);
     const text = formatTodosAsText(urgentTodos);
     const success = await copyToClipboard(text);
 
@@ -48,8 +50,6 @@ export const TodoCopyButton = () => {
     }
   };
 
-  const urgentCount = filterUrgentTodos(todos).length;
-
   return (
     <div className="w-120 max-w-[90%] rounded-xl border border-cyan-100 bg-white/60 p-6 shadow-lg backdrop-blur-sm">
       <button
@@ -60,9 +60,9 @@ export const TodoCopyButton = () => {
       >
         {getButtonText()}
       </button>
-      {urgentCount > 0 && copyStatus === "idle" && (
+      {urgentTodos.length > 0 && copyStatus === "idle" && (
         <p className="mt-2 text-center text-slate-600 text-sm">
-          {urgentCount}件の緊急タスクがあります
+          {urgentTodos.length}件の緊急タスクがあります
         </p>
       )}
     </div>
