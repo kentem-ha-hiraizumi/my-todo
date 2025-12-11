@@ -12,7 +12,7 @@ export const TodoCopyButton = () => {
     "idle",
   );
 
-  // 緊急タスクをメモ化して重複計算を避ける
+  // 本日のタスクをメモ化して重複計算を避ける
   const urgentTodos = useMemo(() => filterUrgentTodos(todos), [todos]);
 
   const handleCopy = async () => {
@@ -62,7 +62,7 @@ export const TodoCopyButton = () => {
       </button>
       {urgentTodos.length > 0 && copyStatus === "idle" && (
         <p className="mt-2 text-center text-slate-600 text-sm">
-          {urgentTodos.length}件の緊急タスクがあります
+          本日のタスクは{urgentTodos.length}件です
         </p>
       )}
     </div>
