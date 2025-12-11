@@ -32,7 +32,7 @@ export const useGroupedTodos = (todos: Todo[]) => {
 
   const groupedTodos = useMemo(() => {
     // フィルタリング
-    const filterFn = filterFunctions[filter];
+    const filterFn = filterFunctions[filter] ?? filterFunctions.active;
     const filtered = todos.filter(filterFn);
 
     // 年・月でグループ化
