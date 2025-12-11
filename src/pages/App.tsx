@@ -12,9 +12,9 @@ export const App = () => {
         <div className="space-y-8">
           <TodoStatus />
           <TodoForm />
+          <TodoCopyButton />
         </div>
         <div className="space-y-8">
-          <TodoCopyButton />
           <TodoFilter />
           <TodoList />
         </div>

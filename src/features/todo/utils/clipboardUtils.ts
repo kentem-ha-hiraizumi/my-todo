@@ -17,7 +17,7 @@ export const filterUrgentTodos = (todos: Todo[]): Todo[] => {
 };
 
 /**
- * タスクをプレーンテキスト形式に変換する
+ * タスクをプレーンテキスト形式に変換する（markdown順序リスト、タイトルのみ）
  * @param todos - タスクの配列
  * @returns プレーンテキスト形式の文字列
  */
@@ -26,23 +26,21 @@ export const formatTodosAsText = (todos: Todo[]): string => {
     return "該当するタスクはありません";
   }
 
-  return todos
-    .map((todo) => {
-      const overdueLabel = isOverdue(todo.endAt, todo.completed)
-        ? "【期限切れ】"
-        : "";
-      const dueTodayLabel = isDueToday(todo.endAt, todo.completed)
-        ? "【本日期限】"
-        : "";
-      const dateStr = todo.endAt
-        ? new Date(todo.endAt).toLocaleDateString("ja-JP")
-        : "期限なし";
-      const noteStr = todo.note ? `\n  メモ: ${todo.note}` : "";
-      const urlStr = todo.url ? `\n  URL: ${todo.url}` : "";
+  // 期限切れと本日期限に分離
+  const overdueTodos = todos.filter((todo) =>
+    isOverdue(todo.endAt, todo.completed),
+  );
+  const dueTodayTodos = todos.filter((todo) =>
+    isDueToday(todo.endAt, todo.completed),
+  );
 
-      return `${overdueLabel}${dueTodayLabel}${todo.title} (期限: ${dateStr})${noteStr}${urlStr}`;
-    })
-    .join("\n\n");
+  // 期限切れ → 本日期限の順番でマージ
+  const sortedTodos = [...overdueTodos, ...dueTodayTodos];
+
+  // markdown順序リスト形式でタイトルのみ出力
+  return sortedTodos
+    .map((todo, index) => `${index + 1}. ${todo.title}`)
+    .join("\n");
 };
 
 /**
@@ -145,7 +143,7 @@ if (import.meta.vitest) {
       expect(result).toBe("該当するタスクはありません");
     });
 
-    it("期限切れタスクを適切にフォーマットする", () => {
+    it("期限切れタスクをmarkdown順序リスト形式でフォーマットする", () => {
       const yesterday = Date.now() - 24 * 60 * 60 * 1000;
       const todos: Todo[] = [
         {
@@ -157,12 +155,10 @@ if (import.meta.vitest) {
       ];
 
       const result = formatTodosAsText(todos);
-      expect(result).toContain("【期限切れ】");
-      expect(result).toContain("期限切れタスク");
-      expect(result).toContain("期限:");
+      expect(result).toBe("1. 期限切れタスク");
     });
 
-    it("今日期限タスクを適切にフォーマットする", () => {
+    it("今日期限タスクをmarkdown順序リスト形式でフォーマットする", () => {
       const today = new Date();
       today.setHours(12, 0, 0, 0);
       const todos: Todo[] = [
@@ -175,11 +171,10 @@ if (import.meta.vitest) {
       ];
 
       const result = formatTodosAsText(todos);
-      expect(result).toContain("【本日期限】");
-      expect(result).toContain("今日期限タスク");
+      expect(result).toBe("1. 今日期限タスク");
     });
 
-    it("メモとURLがある場合は含める", () => {
+    it("タイトルのみを出力し、メモとURLは含めない", () => {
       const today = new Date();
       today.setHours(12, 0, 0, 0);
       const todos: Todo[] = [
@@ -194,23 +189,32 @@ if (import.meta.vitest) {
       ];
 
       const result = formatTodosAsText(todos);
-      expect(result).toContain("メモ: テストメモ");
-      expect(result).toContain("URL: https://example.com");
+      expect(result).toBe("1. テストタスク");
+      expect(result).not.toContain("メモ");
+      expect(result).not.toContain("URL");
     });
 
-    it("複数タスクを改行区切りでフォーマットする", () => {
+    it("期限切れ→本日期限の順で複数タスクをフォーマットする", () => {
       const yesterday = Date.now() - 24 * 60 * 60 * 1000;
       const today = new Date();
       today.setHours(12, 0, 0, 0);
       const todos: Todo[] = [
-        { id: "1", title: "タスク1", completed: false, endAt: yesterday },
-        { id: "2", title: "タスク2", completed: false, endAt: today.getTime() },
+        {
+          id: "1",
+          title: "今日期限タスク",
+          completed: false,
+          endAt: today.getTime(),
+        },
+        {
+          id: "2",
+          title: "期限切れタスク",
+          completed: false,
+          endAt: yesterday,
+        },
       ];
 
       const result = formatTodosAsText(todos);
-      expect(result).toContain("タスク1");
-      expect(result).toContain("タスク2");
-      expect(result.split("\n\n").length).toBe(2);
+      expect(result).toBe("1. 期限切れタスク\n2. 今日期限タスク");
     });
   });
 }
