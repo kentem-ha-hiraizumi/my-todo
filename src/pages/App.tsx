@@ -1,3 +1,4 @@
+import { TodoCopyButton } from "../features/todo/copyButton/todoCopyButton";
 import { TodoFilter } from "../features/todo/filter/todoFilter";
 import { TodoForm } from "../features/todo/form/todoForm";
 import { TodoList } from "../features/todo/todoList";
@@ -11,6 +12,7 @@ export const App = () => {
         <div className="space-y-8">
           <TodoStatus />
           <TodoForm />
+          <TodoCopyButton />
         </div>
         <div className="space-y-8">
           <TodoFilter />
