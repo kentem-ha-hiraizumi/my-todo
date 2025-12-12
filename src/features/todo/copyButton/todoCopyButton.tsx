@@ -55,7 +55,7 @@ export const TodoCopyButton = () => {
       <button
         type="button"
         onClick={handleCopy}
-        disabled={copyStatus !== "idle"}
+        disabled={copyStatus !== "idle" || urgentTodos.length === 0}
         className={`w-full rounded-lg px-4 py-3 font-semibold text-sm shadow-md transition-all duration-200 ${getButtonStyle()} disabled:cursor-not-allowed disabled:opacity-90`}
       >
         {getButtonText()}
