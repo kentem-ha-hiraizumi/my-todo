@@ -40,12 +40,12 @@ export const BulkActions = ({ currentFilter }: BulkActionsProps) => {
     }
   };
 
-  // Markdownリスト形式でコピー
+  // タスクをコピー
   const handleCopyAsMarkdown = async () => {
     const markdown = selectedTodos.map((todo) => `- ${todo.title}`).join("\n");
     try {
       await navigator.clipboard.writeText(markdown);
-      alert("Markdownリストとしてコピーしました");
+      alert("タスクをコピーしました");
     } catch (_error) {
       alert("コピーに失敗しました");
     }
@@ -72,7 +72,7 @@ export const BulkActions = ({ currentFilter }: BulkActionsProps) => {
           type="button"
           onClick={handleBulkComplete}
           disabled={isBulkCompleteDisabled}
-          className="flex-1 rounded-lg bg-cyan-100 px-4 py-2 font-medium text-cyan-700 shadow-sm transition-colors duration-200 hover:bg-cyan-200 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+          className="flex-1 rounded-lg bg-emerald-100 px-4 py-2 font-medium text-emerald-700 shadow-sm transition-colors duration-200 hover:bg-emerald-200 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
         >
           一括完了
         </button>
@@ -80,7 +80,7 @@ export const BulkActions = ({ currentFilter }: BulkActionsProps) => {
           type="button"
           onClick={handleBulkDelete}
           disabled={selectedCount === 0}
-          className="flex-1 rounded-lg bg-slate-100 px-4 py-2 font-medium text-slate-700 shadow-sm transition-colors duration-200 hover:bg-slate-200 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+          className="flex-1 rounded-lg border border-red-200 bg-red-50 px-4 py-2 font-medium text-red-600 shadow-sm transition-colors duration-200 hover:bg-red-100 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400"
         >
           一括削除
         </button>
@@ -88,9 +88,9 @@ export const BulkActions = ({ currentFilter }: BulkActionsProps) => {
           type="button"
           onClick={handleCopyAsMarkdown}
           disabled={selectedCount === 0}
-          className="flex-1 rounded-lg bg-teal-100 px-4 py-2 font-medium text-teal-700 shadow-sm transition-colors duration-200 hover:bg-teal-200 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+          className="flex-1 rounded-lg bg-cyan-100 px-4 py-2 font-medium text-cyan-700 shadow-sm transition-colors duration-200 hover:bg-cyan-200 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
         >
-          Markdown形式でコピー
+          タスクをコピー
         </button>
       </div>
     </div>

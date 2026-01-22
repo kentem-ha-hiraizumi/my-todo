@@ -65,14 +65,17 @@ export const TodoList = () => {
                 const handleClick = (e: React.MouseEvent) => {
                   // 編集中ではない場合のみ選択を切り替え
                   if (editingId !== todo.id) {
-                    // リンクやボタンのクリックでは選択を切り替えない
+                    // リンク、ボタン、details/summaryのクリックでは選択を切り替えない
                     const target = e.target as HTMLElement;
                     if (
                       target.tagName === "A" ||
                       target.tagName === "BUTTON" ||
                       target.tagName === "INPUT" ||
+                      target.tagName === "DETAILS" ||
+                      target.tagName === "SUMMARY" ||
                       target.closest("button") ||
-                      target.closest("a")
+                      target.closest("a") ||
+                      target.closest("details")
                     ) {
                       return;
                     }
