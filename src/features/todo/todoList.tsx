@@ -131,12 +131,14 @@ export const TodoList = () => {
                     };
 
                     const handleKeyDown = (e: React.KeyboardEvent) => {
+                      // 編集中は何もしない（textareaでの改行を妨げないため）
+                      if (editingId === todo.id) {
+                        return;
+                      }
                       // Enter または Space キーで選択を切り替え
                       if (e.key === "Enter" || e.key === " ") {
                         e.preventDefault();
-                        if (editingId !== todo.id) {
-                          toggleSelection(todo.id);
-                        }
+                        toggleSelection(todo.id);
                       }
                     };
 
