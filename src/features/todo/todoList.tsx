@@ -119,7 +119,7 @@ export const TodoList = () => {
                           type="checkbox"
                           checked={selected}
                           onChange={handleCheckboxChange}
-                          className="h-5 w-5 cursor-pointer rounded border-slate-300 text-cyan-600 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-0"
+                          className="h-5 w-5 cursor-pointer rounded border-slate-300 text-cyan-600 accent-sky-600 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-0"
                           aria-label={`${todo.title}を選択`}
                         />
                         <TodoItem
