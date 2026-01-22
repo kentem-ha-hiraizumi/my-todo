@@ -2,12 +2,20 @@ import { useState } from "react";
 import { useGroupedTodos } from "./filter/useGroupedTodos";
 import { TodoEditForm } from "./form/todoEditForm";
 import { TodoItem } from "./item/todoItem";
+import { useSelectionAtom } from "./selection/selectionAtom";
 import { type Todo, useTodoAtom } from "./todoAtom";
 import { isDueToday, isOverdue } from "./utils/dateJudge";
 import { getTodoContainerStyle, getTodoVariant } from "./utils/todoVariant";
 
 export const TodoList = () => {
   const { todos, setCompleted, updateTodo } = useTodoAtom();
+  const {
+    isSelected,
+    toggleSelection,
+    toggleMultipleSelection,
+    areAllSelected,
+    areSomeSelected,
+  } = useSelectionAtom();
   const groupedTodos = useGroupedTodos(todos);
   const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -32,58 +40,151 @@ export const TodoList = () => {
 
   return (
     <div className="w-120 max-w-[90%] space-y-6 rounded-xl border border-cyan-100 bg-white/60 p-4 shadow-lg backdrop-blur-sm">
-      {groupedTodos.map(({ year, months }) => (
-        <div key={year} className="space-y-4">
-          {/* 年セクションヘッダー */}
-          <h2 className="font-bold text-2xl text-slate-800">
-            {year === "no-date" ? "期限なし" : `${year}年`}
-          </h2>
+      {groupedTodos.map(({ year, months }) => {
+        // 年全体のTodoIDリスト
+        const yearTodoIds = months.flatMap(({ todos: todoList }) =>
+          todoList.map((todo) => todo.id),
+        );
+        const yearAllSelected = areAllSelected(yearTodoIds);
+        const yearSomeSelected = areSomeSelected(yearTodoIds);
 
-          {/* 月グループ */}
-          {months.map(({ month, todos: todoList }) => (
-            <div key={month} className="space-y-3">
-              {/* 月グループヘッダー（期限なしの場合は表示しない） */}
-              {year !== "no-date" && (
-                <h3 className="font-semibold text-lg text-slate-700">
-                  {month}月
-                </h3>
-              )}
-
-              {/* Todoリスト */}
-              {todoList.map((todo) => {
-                const overdue = isOverdue(todo.endAt, todo.completed);
-                const dueToday = isDueToday(todo.endAt, todo.completed);
-                const variant = getTodoVariant(
-                  todo.completed,
-                  overdue,
-                  dueToday,
-                );
-
-                return (
-                  <div
-                    key={todo.id}
-                    className={`flex items-center rounded-lg px-5 py-4 shadow-sm transition-all duration-200 ${getTodoContainerStyle(variant)}`}
-                  >
-                    {editingId === todo.id ? (
-                      <TodoEditForm
-                        todo={todo}
-                        onUpdate={handleUpdate}
-                        onCancel={() => setEditingId(null)}
-                      />
-                    ) : (
-                      <TodoItem
-                        todo={todo}
-                        onEdit={setEditingId}
-                        onToggleComplete={setCompleted}
-                      />
-                    )}
-                  </div>
-                );
-              })}
+        return (
+          <div key={year} className="space-y-4">
+            {/* 年セクションヘッダー */}
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={yearAllSelected}
+                ref={(input) => {
+                  if (input) {
+                    input.indeterminate = yearSomeSelected;
+                  }
+                }}
+                onChange={() => toggleMultipleSelection(yearTodoIds)}
+                className="h-5 w-5 cursor-pointer rounded border-slate-300 text-cyan-600 accent-sky-600 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-0"
+                aria-label={`${year === "no-date" ? "期限なし" : `${year}年`}のタスクを全て選択`}
+              />
+              <h2 className="font-bold text-2xl text-slate-800">
+                {year === "no-date" ? "期限なし" : `${year}年`}
+              </h2>
             </div>
-          ))}
-        </div>
-      ))}
+
+            {/* 月グループ */}
+            {months.map(({ month, todos: todoList }) => {
+              const monthTodoIds = todoList.map((todo) => todo.id);
+              const monthAllSelected = areAllSelected(monthTodoIds);
+              const monthSomeSelected = areSomeSelected(monthTodoIds);
+
+              return (
+                <div key={month} className="space-y-3">
+                  {/* 月グループヘッダー（期限なしの場合は表示しない） */}
+                  {year !== "no-date" && (
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={monthAllSelected}
+                        ref={(input) => {
+                          if (input) {
+                            input.indeterminate = monthSomeSelected;
+                          }
+                        }}
+                        onChange={() => toggleMultipleSelection(monthTodoIds)}
+                        className="h-4 w-4 cursor-pointer rounded border-slate-300 text-cyan-600 accent-sky-600 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-0"
+                        aria-label={`${month}月のタスクを全て選択`}
+                      />
+                      <h3 className="font-semibold text-lg text-slate-700">
+                        {month}月
+                      </h3>
+                    </div>
+                  )}
+
+                  {/* Todoリスト */}
+                  {todoList.map((todo) => {
+                    const overdue = isOverdue(todo.endAt, todo.completed);
+                    const dueToday = isDueToday(todo.endAt, todo.completed);
+                    const variant = getTodoVariant(
+                      todo.completed,
+                      overdue,
+                      dueToday,
+                    );
+                    const selected = isSelected(todo.id);
+
+                    const handleClick = (e: React.MouseEvent) => {
+                      // 編集中ではない場合のみ選択を切り替え
+                      if (editingId !== todo.id) {
+                        // リンク、ボタン、details/summaryのクリックでは選択を切り替えない
+                        const target = e.target as HTMLElement;
+                        if (
+                          target.tagName === "A" ||
+                          target.tagName === "BUTTON" ||
+                          target.tagName === "INPUT" ||
+                          target.tagName === "DETAILS" ||
+                          target.tagName === "SUMMARY" ||
+                          target.closest("button") ||
+                          target.closest("a") ||
+                          target.closest("details")
+                        ) {
+                          return;
+                        }
+                        toggleSelection(todo.id);
+                      }
+                    };
+
+                    const handleKeyDown = (e: React.KeyboardEvent) => {
+                      // Enter または Space キーで選択を切り替え
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        if (editingId !== todo.id) {
+                          toggleSelection(todo.id);
+                        }
+                      }
+                    };
+
+                    const handleCheckboxChange = () => {
+                      toggleSelection(todo.id);
+                    };
+
+                    return (
+                      <div
+                        key={todo.id}
+                        role="button"
+                        tabIndex={0}
+                        onClick={handleClick}
+                        onKeyDown={handleKeyDown}
+                        className={`flex cursor-pointer items-center gap-3 rounded-lg px-5 py-4 shadow-sm transition-all duration-200 ${getTodoContainerStyle(variant)} ${selected ? "ring-4 ring-cyan-400" : ""}`}
+                      >
+                        {editingId === todo.id ? (
+                          <TodoEditForm
+                            todo={todo}
+                            onUpdate={handleUpdate}
+                            onCancel={() => setEditingId(null)}
+                          />
+                        ) : (
+                          <>
+                            {/* 選択用チェックボックス */}
+                            <input
+                              type="checkbox"
+                              checked={selected}
+                              onChange={handleCheckboxChange}
+                              className="h-5 w-5 cursor-pointer rounded border-slate-300 text-cyan-600 accent-sky-600 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-0"
+                              aria-label={`${todo.title}を選択`}
+                            />
+                            <TodoItem
+                              todo={todo}
+                              onEdit={setEditingId}
+                              onToggleComplete={setCompleted}
+                            />
+                          </>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
     </div>
   );
 };
