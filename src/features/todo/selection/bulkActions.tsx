@@ -43,9 +43,9 @@ export const BulkActions = ({ currentFilter }: BulkActionsProps) => {
   // タスクをコピー
   const handleCopyAsMarkdown = async () => {
     const markdown = selectedTodos.map((todo) => `- ${todo.title}`).join("\n");
+
     try {
       await navigator.clipboard.writeText(markdown);
-      alert("タスクをコピーしました");
     } catch (_error) {
       alert("コピーに失敗しました");
     }
