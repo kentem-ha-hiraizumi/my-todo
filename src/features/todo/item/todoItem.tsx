@@ -35,7 +35,7 @@ export const TodoItem = ({ todo, onEdit, onToggleComplete }: TodoItemProps) => {
           <h2 className={getTodoTitleStyle(variant, false)}>{title}</h2>
         )}
         {note && (
-          <details>
+          <details className="w-fit">
             <summary className="cursor-pointer text-slate-500 text-sm">
               詳細
             </summary>
