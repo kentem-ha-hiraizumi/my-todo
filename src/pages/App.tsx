@@ -1,5 +1,6 @@
 import { TodoFilter } from "../features/todo/filter/todoFilter";
 import { TodoForm } from "../features/todo/form/todoForm";
+import { BulkActions } from "../features/todo/selection/bulkActions";
 import { TodoList } from "../features/todo/todoList";
 
 export const App = () => {
@@ -9,6 +10,7 @@ export const App = () => {
       <div className="flex flex-wrap justify-center gap-8">
         <div className="space-y-8">
           <TodoForm />
+          <BulkActions />
         </div>
         <div className="space-y-8">
           <TodoFilter />

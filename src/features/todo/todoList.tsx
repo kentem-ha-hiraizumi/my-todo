@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useGroupedTodos } from "./filter/useGroupedTodos";
 import { TodoEditForm } from "./form/todoEditForm";
 import { TodoItem } from "./item/todoItem";
+import { useSelectionAtom } from "./selection/selectionAtom";
 import { type Todo, useTodoAtom } from "./todoAtom";
 import { isDueToday, isOverdue } from "./utils/dateJudge";
 import { getTodoContainerStyle, getTodoVariant } from "./utils/todoVariant";
 
 export const TodoList = () => {
   const { todos, setCompleted, updateTodo } = useTodoAtom();
+  const { isSelected, toggleSelection } = useSelectionAtom();
   const groupedTodos = useGroupedTodos(todos);
   const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -58,11 +60,43 @@ export const TodoList = () => {
                   overdue,
                   dueToday,
                 );
+                const selected = isSelected(todo.id);
+
+                const handleClick = (e: React.MouseEvent) => {
+                  // 編集中ではない場合のみ選択を切り替え
+                  if (editingId !== todo.id) {
+                    // リンクやボタンのクリックでは選択を切り替えない
+                    const target = e.target as HTMLElement;
+                    if (
+                      target.tagName === "A" ||
+                      target.tagName === "BUTTON" ||
+                      target.closest("button") ||
+                      target.closest("a")
+                    ) {
+                      return;
+                    }
+                    toggleSelection(todo.id);
+                  }
+                };
+
+                const handleKeyDown = (e: React.KeyboardEvent) => {
+                  // Enter または Space キーで選択を切り替え
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    if (editingId !== todo.id) {
+                      toggleSelection(todo.id);
+                    }
+                  }
+                };
 
                 return (
                   <div
                     key={todo.id}
-                    className={`flex items-center rounded-lg px-5 py-4 shadow-sm transition-all duration-200 ${getTodoContainerStyle(variant)}`}
+                    role="button"
+                    tabIndex={0}
+                    onClick={handleClick}
+                    onKeyDown={handleKeyDown}
+                    className={`flex cursor-pointer items-center rounded-lg px-5 py-4 shadow-sm transition-all duration-200 ${getTodoContainerStyle(variant)} ${selected ? "ring-4 ring-cyan-400" : ""}`}
                   >
                     {editingId === todo.id ? (
                       <TodoEditForm
