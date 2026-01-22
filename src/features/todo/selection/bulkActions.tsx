@@ -1,7 +1,11 @@
 import { useTodoAtom } from "../todoAtom";
 import { useSelectionAtom } from "./selectionAtom";
 
-export const BulkActions = () => {
+type BulkActionsProps = {
+  currentFilter: "active" | "completed";
+};
+
+export const BulkActions = ({ currentFilter }: BulkActionsProps) => {
   const { selectedIds, clearSelection } = useSelectionAtom();
   const { todos, setCompleted, removeTodo } = useTodoAtom();
 
@@ -9,6 +13,10 @@ export const BulkActions = () => {
 
   // 選択されたTodoを取得
   const selectedTodos = todos.filter((todo) => selectedIds.includes(todo.id));
+
+  // 完了済みフィルタでは一括完了ボタンを無効化
+  const isBulkCompleteDisabled =
+    currentFilter === "completed" || selectedCount === 0;
 
   // 一括完了
   const handleBulkComplete = () => {
@@ -43,44 +51,44 @@ export const BulkActions = () => {
     }
   };
 
-  // 選択がない場合は何も表示しない
-  if (selectedCount === 0) {
-    return null;
-  }
-
   return (
     <div className="w-120 max-w-[90%] rounded-xl border border-cyan-100 bg-white/80 p-4 shadow-lg backdrop-blur-sm">
       <div className="mb-3 flex items-center justify-between">
         <span className="font-medium text-slate-700">
-          {selectedCount}件選択中
+          {selectedCount > 0 ? `${selectedCount}件選択中` : "選択なし"}
         </span>
-        <button
-          type="button"
-          onClick={clearSelection}
-          className="text-slate-500 text-sm hover:text-slate-700"
-        >
-          選択を解除
-        </button>
+        {selectedCount > 0 && (
+          <button
+            type="button"
+            onClick={clearSelection}
+            className="text-slate-500 text-sm hover:text-slate-700"
+          >
+            選択を解除
+          </button>
+        )}
       </div>
       <div className="flex flex-wrap gap-2">
         <button
           type="button"
           onClick={handleBulkComplete}
-          className="flex-1 rounded-lg bg-green-500 px-4 py-2 font-medium text-white shadow-md transition-colors duration-200 hover:bg-green-600"
+          disabled={isBulkCompleteDisabled}
+          className="flex-1 rounded-lg bg-cyan-100 px-4 py-2 font-medium text-cyan-700 shadow-sm transition-colors duration-200 hover:bg-cyan-200 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
         >
           一括完了
         </button>
         <button
           type="button"
           onClick={handleBulkDelete}
-          className="flex-1 rounded-lg bg-red-500 px-4 py-2 font-medium text-white shadow-md transition-colors duration-200 hover:bg-red-600"
+          disabled={selectedCount === 0}
+          className="flex-1 rounded-lg bg-slate-100 px-4 py-2 font-medium text-slate-700 shadow-sm transition-colors duration-200 hover:bg-slate-200 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
         >
           一括削除
         </button>
         <button
           type="button"
           onClick={handleCopyAsMarkdown}
-          className="flex-1 rounded-lg bg-blue-500 px-4 py-2 font-medium text-white shadow-md transition-colors duration-200 hover:bg-blue-600"
+          disabled={selectedCount === 0}
+          className="flex-1 rounded-lg bg-teal-100 px-4 py-2 font-medium text-teal-700 shadow-sm transition-colors duration-200 hover:bg-teal-200 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
         >
           Markdown形式でコピー
         </button>

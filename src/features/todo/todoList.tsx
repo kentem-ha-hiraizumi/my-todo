@@ -70,6 +70,7 @@ export const TodoList = () => {
                     if (
                       target.tagName === "A" ||
                       target.tagName === "BUTTON" ||
+                      target.tagName === "INPUT" ||
                       target.closest("button") ||
                       target.closest("a")
                     ) {
@@ -89,6 +90,10 @@ export const TodoList = () => {
                   }
                 };
 
+                const handleCheckboxChange = () => {
+                  toggleSelection(todo.id);
+                };
+
                 return (
                   <div
                     key={todo.id}
@@ -96,7 +101,7 @@ export const TodoList = () => {
                     tabIndex={0}
                     onClick={handleClick}
                     onKeyDown={handleKeyDown}
-                    className={`flex cursor-pointer items-center rounded-lg px-5 py-4 shadow-sm transition-all duration-200 ${getTodoContainerStyle(variant)} ${selected ? "ring-4 ring-cyan-400" : ""}`}
+                    className={`flex cursor-pointer items-center gap-3 rounded-lg px-5 py-4 shadow-sm transition-all duration-200 ${getTodoContainerStyle(variant)} ${selected ? "ring-4 ring-cyan-400" : ""}`}
                   >
                     {editingId === todo.id ? (
                       <TodoEditForm
@@ -105,11 +110,21 @@ export const TodoList = () => {
                         onCancel={() => setEditingId(null)}
                       />
                     ) : (
-                      <TodoItem
-                        todo={todo}
-                        onEdit={setEditingId}
-                        onToggleComplete={setCompleted}
-                      />
+                      <>
+                        {/* 選択用チェックボックス */}
+                        <input
+                          type="checkbox"
+                          checked={selected}
+                          onChange={handleCheckboxChange}
+                          className="h-5 w-5 cursor-pointer rounded border-slate-300 text-cyan-600 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-0"
+                          aria-label={`${todo.title}を選択`}
+                        />
+                        <TodoItem
+                          todo={todo}
+                          onEdit={setEditingId}
+                          onToggleComplete={setCompleted}
+                        />
+                      </>
                     )}
                   </div>
                 );

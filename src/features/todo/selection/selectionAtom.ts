@@ -1,8 +1,7 @@
-import { useAtom } from "jotai";
-import { atomWithStorage } from "jotai/utils";
+import { atom, useAtom } from "jotai";
 
-// 選択されたTodoのIDの配列を管理
-const selectionAtom = atomWithStorage<string[]>("todo-selection", []);
+// 選択されたTodoのIDの配列を管理（永続化なし）
+const selectionAtom = atom<string[]>([]);
 
 export const useSelectionAtom = () => {
   const [selectedIds, setSelectedIds] = useAtom(selectionAtom);

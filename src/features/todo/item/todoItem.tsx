@@ -20,8 +20,8 @@ export const TodoItem = ({ todo, onEdit, onToggleComplete }: TodoItemProps) => {
   const variant = getTodoVariant(completed, overdue, dueToday);
 
   return (
-    <div className="space-y-2">
-      <div className="flex-1 space-y-1">
+    <div className="flex flex-1 flex-col space-y-2">
+      <div className="space-y-1">
         {url ? (
           <a
             href={url}
