@@ -15,14 +15,14 @@ export const TodoDeleteModal = ({
         <div className="flex justify-end gap-3">
           <button
             type="button"
-            className="rounded-lg bg-slate-200 px-5 py-2 font-medium text-slate-700 shadow-sm transition-colors duration-200 hover:bg-slate-300"
+            className="cursor-pointer rounded-lg bg-slate-200 px-5 py-2 font-medium text-slate-700 shadow-sm transition-colors duration-200 hover:bg-slate-300"
             onClick={onCancel}
           >
             キャンセル
           </button>
           <button
             type="button"
-            className="rounded-lg bg-red-500 px-5 py-2 font-medium text-white shadow-sm transition-colors duration-200 hover:bg-red-600"
+            className="cursor-pointer rounded-lg border border-red-200 bg-red-50 px-5 py-2 font-medium text-red-600 shadow-sm transition-colors duration-200 hover:bg-red-100"
             onClick={onConfirm}
           >
             削除する

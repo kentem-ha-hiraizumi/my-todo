@@ -22,7 +22,7 @@ export const TodoItemNavigation = ({
       {!completed && (
         <button
           type="button"
-          className="cursor-pointer rounded-lg bg-cyan-500 px-4 py-2 font-medium text-white shadow-sm transition-colors duration-200 hover:bg-cyan-600"
+          className="cursor-pointer rounded-lg bg-cyan-500 px-4 py-2 font-medium text-white shadow-sm transition-colors duration-200 hover:bg-cyan-600 active:bg-cyan-700"
           onClick={() => onEdit(id)}
         >
           編集
@@ -30,7 +30,7 @@ export const TodoItemNavigation = ({
       )}
       <button
         type="button"
-        className={`cursor-pointer rounded-lg px-4 py-2 font-medium text-white shadow-sm transition-colors duration-200 ${completed ? "bg-slate-400 hover:bg-slate-500" : "bg-teal-500 hover:bg-teal-600"}`}
+        className={`cursor-pointer rounded-lg px-4 py-2 font-medium text-white shadow-sm transition-colors duration-200 ${completed ? "bg-slate-400 hover:bg-slate-500 active:bg-slate-600" : "bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700"}`}
         onClick={() => {
           onToggleComplete(id, !completed);
         }}
@@ -39,7 +39,7 @@ export const TodoItemNavigation = ({
       </button>
       <button
         type="button"
-        className={`cursor-pointer rounded-lg px-3 py-2 shadow-sm transition-colors duration-200 ${completed ? "bg-slate-200 text-slate-600 hover:bg-slate-300" : "border border-red-200 bg-red-50 text-red-600 hover:bg-red-100"}`}
+        className={`cursor-pointer rounded-lg px-3 py-2 font-medium shadow-sm transition-colors duration-200 ${completed ? "bg-slate-400 text-white hover:bg-slate-500 active:bg-slate-600" : "border border-red-200 bg-red-50 text-red-600 hover:bg-red-100"}`}
         onClick={() => {
           if (completed) {
             removeTodo(id);

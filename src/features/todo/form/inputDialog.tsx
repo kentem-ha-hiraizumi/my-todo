@@ -11,7 +11,7 @@ export const InputDialogButton = () => {
         command="show-modal"
         commandfor="input-dialog"
         type="button"
-        className="cursor-pointer rounded-lg bg-teal-500 px-4 py-2 font-bold text-white text-xl leading-10 shadow-sm transition-colors duration-200 hover:bg-sky-600"
+        className="cursor-pointer rounded-lg bg-cyan-500 px-6 py-2 font-bold text-white text-xl leading-10 shadow-sm transition-colors duration-200 hover:bg-cyan-600 active:bg-cyan-700"
       >
         作成
       </button>
@@ -99,7 +99,7 @@ const InputDialog = () => {
         </label>
         <button
           type="submit"
-          className="mt-2 w-full cursor-pointer rounded-lg bg-cyan-500 px-6 py-3 font-medium text-white shadow-md transition-colors duration-200 hover:bg-cyan-600"
+          className="mt-2 w-full cursor-pointer rounded-lg bg-cyan-500 px-6 py-3 font-medium text-white shadow-md transition-colors duration-200 hover:bg-cyan-600 active:bg-cyan-700"
         >
           ToDoを追加
         </button>
