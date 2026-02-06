@@ -121,8 +121,15 @@ export const TodoList = () => {
                       const selected = isSelected(todo.id);
 
                       const handleClick = (e: React.MouseEvent) => {
-                        // リンク、ボタンのクリックでは選択を切り替えない
+                        // dialog内（backdrop含む）のクリックは無視
                         const target = e.target as HTMLElement;
+                        if (
+                          target.tagName === "DIALOG" ||
+                          target.closest("dialog")
+                        ) {
+                          return;
+                        }
+                        // リンク、ボタンのクリックでは選択を切り替えない
                         if (
                           target.tagName === "A" ||
                           target.tagName === "BUTTON" ||
