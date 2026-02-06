@@ -11,9 +11,9 @@ export const InputDialogButton = () => {
         command="show-modal"
         commandfor="input-dialog"
         type="button"
-        className="w-120 max-w-[90%] cursor-pointer rounded-xl border-2 border-cyan-300 border-dashed bg-white/60 px-6 py-4 font-medium text-cyan-600 shadow-sm transition-colors duration-200 hover:border-cyan-400 hover:bg-white/80"
+        className="cursor-pointer rounded-lg bg-teal-500 px-4 py-2 font-bold text-white text-xl leading-10 shadow-sm transition-colors duration-200 hover:bg-sky-600"
       >
-        + 新しいToDoを追加
+        作成
       </button>
     </>
   );

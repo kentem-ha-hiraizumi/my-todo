@@ -12,16 +12,14 @@ export const App = () => {
   return (
     <main className="flex min-h-screen flex-col items-center gap-6 p-8">
       <h1 className="mb-2 font-bold text-4xl text-cyan-700">My ToDo</h1>
-      <div className="flex flex-wrap justify-center gap-8">
-        <div className="space-y-8">
+      <div className="flex flex-wrap items-center justify-center gap-8">
+        <div className="flex flex-wrap items-center justify-center gap-8 rounded-lg bg-white/60 p-4 shadow-md">
           <InputDialogButton />
-          <BulkActions currentFilter={filter} />
-        </div>
-        <div className="space-y-8">
           <TodoFilter />
-          <TodoList />
         </div>
+        <BulkActions currentFilter={filter} />
       </div>
+      <TodoList />
     </main>
   );
 };
