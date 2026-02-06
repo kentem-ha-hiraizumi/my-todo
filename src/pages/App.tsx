@@ -1,7 +1,7 @@
 import { useFilterAtom } from "../features/todo/filter/filterAtom";
 import { TodoFilter } from "../features/todo/filter/todoFilter";
 import { InputDialogButton } from "../features/todo/form/inputDialog";
-import { useInputModalTrigger } from "../features/todo/form/useInput";
+import { useInputModalTrigger } from "../features/todo/form/useInputModalTrigger";
 import { BulkActions } from "../features/todo/selection/bulkActions";
 import { TodoList } from "../features/todo/todoList";
 
