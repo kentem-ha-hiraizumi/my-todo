@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useGroupedTodos } from "./filter/useGroupedTodos";
-import { TodoEditForm } from "./form/todoEditForm";
+import { EditDialog } from "./form/todoEditForm";
 import { TodoItem } from "./item/todoItem";
 import { useSelectionAtom } from "./selection/selectionAtom";
 import { type Todo, useTodoAtom } from "./todoAtom";
@@ -17,14 +17,19 @@ export const TodoList = () => {
     areSomeSelected,
   } = useSelectionAtom();
   const groupedTodos = useGroupedTodos(todos);
-  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
+
+  const handleEdit = (id: string) => {
+    const todo = todos.find((t) => t.id === id);
+    if (todo) setEditingTodo(todo);
+  };
 
   const handleUpdate = (
     id: string,
     data: Partial<Omit<Todo, "id" | "completed">>,
   ) => {
     updateTodo(id, data);
-    setEditingId(null);
+    setEditingTodo(null);
   };
 
   // グループが空かどうかを確認
@@ -40,6 +45,11 @@ export const TodoList = () => {
 
   return (
     <div className="w-full max-w-7xl space-y-6 rounded-xl border border-cyan-100 bg-white/60 p-4 shadow-lg backdrop-blur-sm">
+      <EditDialog
+        todo={editingTodo}
+        onUpdate={handleUpdate}
+        onClose={() => setEditingTodo(null)}
+      />
       {groupedTodos.map(({ year, months }) => {
         // 年全体のTodoIDリスト
         const yearTodoIds = months.flatMap(({ todos: todoList }) =>
@@ -111,31 +121,24 @@ export const TodoList = () => {
                       const selected = isSelected(todo.id);
 
                       const handleClick = (e: React.MouseEvent) => {
-                        // 編集中ではない場合のみ選択を切り替え
-                        if (editingId !== todo.id) {
-                          // リンク、ボタン、details/summaryのクリックでは選択を切り替えない
-                          const target = e.target as HTMLElement;
-                          if (
-                            target.tagName === "A" ||
-                            target.tagName === "BUTTON" ||
-                            target.tagName === "INPUT" ||
-                            target.tagName === "DETAILS" ||
-                            target.tagName === "SUMMARY" ||
-                            target.closest("button") ||
-                            target.closest("a") ||
-                            target.closest("details")
-                          ) {
-                            return;
-                          }
-                          toggleSelection(todo.id);
+                        // リンク、ボタン、details/summaryのクリックでは選択を切り替えない
+                        const target = e.target as HTMLElement;
+                        if (
+                          target.tagName === "A" ||
+                          target.tagName === "BUTTON" ||
+                          target.tagName === "INPUT" ||
+                          target.tagName === "DETAILS" ||
+                          target.tagName === "SUMMARY" ||
+                          target.closest("button") ||
+                          target.closest("a") ||
+                          target.closest("details")
+                        ) {
+                          return;
                         }
+                        toggleSelection(todo.id);
                       };
 
                       const handleKeyDown = (e: React.KeyboardEvent) => {
-                        // 編集中は何もしない（textareaでの改行を妨げないため）
-                        if (editingId === todo.id) {
-                          return;
-                        }
                         // Enter または Space キーで選択を切り替え
                         if (e.key === "Enter" || e.key === " ") {
                           e.preventDefault();
@@ -156,29 +159,19 @@ export const TodoList = () => {
                           onKeyDown={handleKeyDown}
                           className={`flex cursor-pointer items-center gap-3 rounded-lg px-5 py-4 shadow-sm transition-all duration-200 ${getTodoContainerStyle(variant)} ${selected ? "ring-4 ring-cyan-400" : ""}`}
                         >
-                          {editingId === todo.id ? (
-                            <TodoEditForm
-                              todo={todo}
-                              onUpdate={handleUpdate}
-                              onCancel={() => setEditingId(null)}
-                            />
-                          ) : (
-                            <>
-                              {/* 選択用チェックボックス */}
-                              <input
-                                type="checkbox"
-                                checked={selected}
-                                onChange={handleCheckboxChange}
-                                className="h-5 w-5 cursor-pointer rounded border-slate-300 text-cyan-600 accent-sky-600 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-0"
-                                aria-label={`${todo.title}を選択`}
-                              />
-                              <TodoItem
-                                todo={todo}
-                                onEdit={setEditingId}
-                                onToggleComplete={setCompleted}
-                              />
-                            </>
-                          )}
+                          {/* 選択用チェックボックス */}
+                          <input
+                            type="checkbox"
+                            checked={selected}
+                            onChange={handleCheckboxChange}
+                            className="h-5 w-5 cursor-pointer rounded border-slate-300 text-cyan-600 accent-sky-600 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-0"
+                            aria-label={`${todo.title}を選択`}
+                          />
+                          <TodoItem
+                            todo={todo}
+                            onEdit={handleEdit}
+                            onToggleComplete={setCompleted}
+                          />
                         </div>
                       );
                     })}
