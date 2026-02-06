@@ -1,7 +1,6 @@
 import { useFilterAtom } from "../features/todo/filter/filterAtom";
 import { TodoFilter } from "../features/todo/filter/todoFilter";
 import { InputDialogButton } from "../features/todo/form/inputDialog";
-import { TodoForm } from "../features/todo/form/todoForm";
 import { useInputModalTrigger } from "../features/todo/form/useInput";
 import { BulkActions } from "../features/todo/selection/bulkActions";
 import { TodoList } from "../features/todo/todoList";
@@ -16,7 +15,6 @@ export const App = () => {
       <div className="flex flex-wrap justify-center gap-8">
         <div className="space-y-8">
           <InputDialogButton />
-          <TodoForm />
           <BulkActions currentFilter={filter} />
         </div>
         <div className="space-y-8">
