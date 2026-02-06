@@ -121,17 +121,14 @@ export const TodoList = () => {
                       const selected = isSelected(todo.id);
 
                       const handleClick = (e: React.MouseEvent) => {
-                        // リンク、ボタン、details/summaryのクリックでは選択を切り替えない
+                        // リンク、ボタンのクリックでは選択を切り替えない
                         const target = e.target as HTMLElement;
                         if (
                           target.tagName === "A" ||
                           target.tagName === "BUTTON" ||
                           target.tagName === "INPUT" ||
-                          target.tagName === "DETAILS" ||
-                          target.tagName === "SUMMARY" ||
                           target.closest("button") ||
-                          target.closest("a") ||
-                          target.closest("details")
+                          target.closest("a")
                         ) {
                           return;
                         }
@@ -139,7 +136,17 @@ export const TodoList = () => {
                       };
 
                       const handleKeyDown = (e: React.KeyboardEvent) => {
-                        // Enter または Space キーで選択を切り替え
+                        // ボタンやリンクにフォーカス中はそちらを優先
+                        const target = e.target as HTMLElement;
+                        if (
+                          target.tagName === "BUTTON" ||
+                          target.tagName === "A" ||
+                          target.closest("button") ||
+                          target.closest("a")
+                        ) {
+                          return;
+                        }
+                        // TODO自体やチェックボックスにフォーカス中のみ選択を切り替え
                         if (e.key === "Enter" || e.key === " ") {
                           e.preventDefault();
                           toggleSelection(todo.id);

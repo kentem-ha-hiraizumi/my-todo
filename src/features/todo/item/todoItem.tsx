@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import type { Todo } from "../todoAtom";
 import { isDueToday, isOverdue } from "../utils/dateJudge";
 import {
@@ -18,6 +19,7 @@ export const TodoItem = ({ todo, onEdit, onToggleComplete }: TodoItemProps) => {
   const overdue = isOverdue(endAt, completed);
   const dueToday = isDueToday(endAt, completed);
   const variant = getTodoVariant(completed, overdue, dueToday);
+  const noteDialogRef = useRef<HTMLDialogElement>(null);
 
   return (
     <div className="flex flex-1 flex-col space-y-2">
@@ -34,14 +36,6 @@ export const TodoItem = ({ todo, onEdit, onToggleComplete }: TodoItemProps) => {
         ) : (
           <h2 className={getTodoTitleStyle(variant, false)}>{title}</h2>
         )}
-        {note && (
-          <details className="w-fit">
-            <summary className="cursor-pointer text-slate-500 text-sm">
-              詳細
-            </summary>
-            <div className="whitespace-pre-wrap text-slate-600">{note}</div>
-          </details>
-        )}
         <p className={getTodoDateStyle(variant)}>
           {endAt
             ? `期日: ${new Date(endAt).toLocaleDateString()}${overdue ? " (期限超過)" : dueToday ? " (本日期限)" : ""}`
@@ -51,9 +45,23 @@ export const TodoItem = ({ todo, onEdit, onToggleComplete }: TodoItemProps) => {
       <TodoItemNavigation
         id={id}
         completed={completed}
+        hasNote={!!note}
+        onShowNote={() => noteDialogRef.current?.showModal()}
         onEdit={onEdit}
         onToggleComplete={onToggleComplete}
       />
+      {note && (
+        <dialog
+          ref={noteDialogRef}
+          closedby="any"
+          className="fixed inset-0 m-auto w-120 max-w-[90%] cursor-default rounded-xl border-none bg-white/95 p-0 shadow-2xl backdrop-blur-sm backdrop:bg-black/40"
+        >
+          <div className="flex items-center justify-between border-cyan-100 border-b p-5">
+            <h2 className="font-bold text-cyan-700 text-lg">{title}</h2>
+          </div>
+          <div className="whitespace-pre-wrap p-6 text-slate-600">{note}</div>
+        </dialog>
+      )}
     </div>
   );
 };
