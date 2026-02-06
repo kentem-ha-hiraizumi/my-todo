@@ -7,10 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": [
-      "**",
-      "!!**/node_modules"
-    ]
+    "includes": ["**", "!!**/node_modules"]
   },
   "formatter": {
     "enabled": true,
@@ -21,7 +18,10 @@
     "rules": {
       "recommended": true,
       "nursery": {
-        "useSortedClasses": "error"
+        "useSortedClasses": {
+          "level": "warn",
+          "fix": "safe"
+        }
       },
       "a11y": {
         "useSemanticElements": "off"
