@@ -6,7 +6,11 @@
     "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": true
+    "ignoreUnknown": true,
+    "includes": [
+      "**",
+      "!!**/node_modules"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -21,6 +25,12 @@
       },
       "a11y": {
         "useSemanticElements": "off"
+      },
+      "correctness": {
+        "noUnusedImports": {
+          "level": "warn",
+          "fix": "safe"
+        }
       }
     }
   },
